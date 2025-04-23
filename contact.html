@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1e1e1e);
+      color: #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1ed760;
+    }
+
+    nav a {
+      margin-left: 1rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: #1ed760;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #1ed760;
+    }
+
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .contact-info, .contact-form {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .contact-info h2, .contact-form h2 {
+      color: #1ed760;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .contact-form label {
+      display: block;
+      text-align: left;
+      margin: 1rem 0 0.5rem;
+      font-weight: 500;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: #121212;
+      color: #fff;
+      border: 1px solid #1ed760;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .contact-form textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    .contact-form button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #1ed760;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background: #00b859;
+    }
+
+    @media (max-width: 768px) {
+      .contact-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.85);
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        margin: 1rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyPortfolio</div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="more.html">More</a>
+      <a href="login.html" class="login-btn">Login</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <section class="hero">
+    <h1>Contact Me</h1>
+  </section>
+
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>My Address</h2>
+      <p>Greensboro, NC 27406</p>
+      <h2>Social Profiles</h2>
+      <p><strong>Email:</strong> rohailch2023@outlook.com</p>
+      <p><strong>Contact:</strong> +1 123-456-789</p>
+    </div>
+
+    <div class="contact-form">
+      <h2>Send a Message</h2>
+      <form action="https://formspree.io/f/mdkngeza" method="POST">
+        <label for="email">Your Email:</label>
+        <input type="email" name="email" id="email" required>
+        
+        <label for="message">Your Message:</label>
+        <textarea name="message" id="message" required></textarea>
+        
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('nav');
+      nav.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

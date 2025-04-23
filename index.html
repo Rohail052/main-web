@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhatWorks | Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">What<span style="color:#1ed760;">Works</span></div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="more.html">More</a>
+      <a href="login.html" class="login-btn">Login</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <section class="hero">
+    <h1>Hi, I'm <span style="color:#1ed760;">WhatWorks</span></h1>
+    <p>Full-stack Developer | UI/UX Designer | AI Enthusiast</p>
+    <a href="projects.html" class="btn">View My Projects</a>
+  </section>
+
+  <section class="intro">
+    <h2>What I Do</h2>
+    <p>I build fast, responsive, and modern websites using the latest technologies. From sleek frontends to powerful backend systems, I bring ideas to life online.</p>
+  </section>
+
+  <footer>
+    <p>© 2025 WhatWorks. All Rights Reserved.</p>
+    <p><a href="mailto:contact@whatworks.dev">contact@whatworks.dev</a></p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
