@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,7 +145,7 @@
             if (user) {
                 const storedUser = JSON.parse(localStorage.getItem("user"));
                 if (storedUser && new Date().getTime() < storedUser.expireTime) {
-                    window.location.href = "User.html";
+                    window.location.href = "After.html";
                 } else {
                     localStorage.removeItem("user");
                     auth.signOut();
