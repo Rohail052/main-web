@@ -1,46 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="login-box">
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <h2>Login</h2>
-                <div class="input-box">
-                    <span class="icon">
-                        <ion-icon name="mail"></ion-icon>
-                    </span>
-                    <input type="email" id="emailInput" required>
-                    <label>Email</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon">
-                        <ion-icon name="lock-closed"></ion-icon>
-                    </span>
-                    <input type="password" id="passwordInput" required>
-                    <label>Password</label>
-                </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox"> Remember me</label>
-                    <a href="#">Forgot Password?</a>
-                </div>
-                <button type="submit">Login</button>
-                <div class="register-link">
-                    <p>Don't have an account? <a href="new.html">Register</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
-    <script>
-        // Fake user database with specific redirects
-        const users = [
+// Fake user database with specific redirects
+const users = [
     { email: 'Student@rohail.com', password: '12', redirectTo: '404.html' },
     { email: 'ch@rohail.com', password: '124', redirectTo: 'admin.html' },
-              { email: '28438635638@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
+    { email: '28438635638@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
     { email: '59227717242@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
     { email: '46505998863@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
     { email: '64405296569@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
@@ -102,184 +64,20 @@
     { email: '90863596040@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
     { email: '52190186691@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' },
     { email: '91250683256@stu.rohail.com', password: 'password1234!@#$', redirectTo: 'student.html' }
- 
-        ];
+];
 
-        function handleLogin(event) {
-            event.preventDefault(); // Prevents the form from submitting normally
+// Login handler function
+function handleLogin(event) {
+    event.preventDefault(); // Prevent form from submitting
 
-            const email = document.getElementById('emailInput').value;
-            const password = document.getElementById('passwordInput').value;
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passwordInput').value;
 
-            const user = users.find(u => u.email === email && u.password === password);
-            if (user) {
-                sessionStorage.setItem('loggedIn', 'true');  // Set session
-                window.location.href = user.redirectTo;  // Redirect based on user
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        }
-    </script>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Montserrat', sans-serif;
-        }
-
-        :root {
-          --black-color: #fff;
-        }
-
-        .wrapper {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          width: 100%;
-          background: url('https://i.pinimg.com/originals/09/05/a7/0905a74092fa43fce6218aa48f6a26a4.jpg') no-repeat;
-          background-size: cover;
-          background-position: center;
-          background-color: #66fcf1;
-          animation: animateBg 4s linear infinite;
-        }
-
-        @keyframes animateBg {
-          100% {
-            filter: hue-rotate(360deg);
-          }
-        }
-
-        .login-box {
-          position: relative;
-          width: 400px;
-          height: 450px;
-          background: transparent;
-          border-radius: 15px;
-          border: 2px solid rgba(255, 0, 0, 0.349);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          backdrop-filter: blur(15px);
-        }
-
-        h2 {
-          font-size: 2em;
-          color: var(--black-color);
-          text-align: center;
-        }
-
-        .input-box {
-          position: relative;
-          width: 310px;
-          margin: 30px 0;
-          border-bottom: 1px solid var(--black-color);
-        }
-
-        .input-box label {
-          position: absolute;
-          top: 50%;
-          left: 5px;
-          transform: translateY(-50%);
-          font-size: 1em;
-          color: var(--black-color);
-          pointer-events: none;
-          transition: .5s;
-        }
-
-        .input-box input:focus ~ label,
-        .input-box input:valid ~ label {
-          top: -5px;
-        }
-
-        .input-box input {
-          width: 100%;
-          height: 50px;
-          background: transparent;
-          border: none;
-          outline: none;
-          font-size: 1em;
-          color: var(--black-color);
-          padding: 0 35px 0 5px;
-        }
-
-        .input-box .icon {
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          color: var(--black-color);
-          transform: translateY(-50%);
-        }
-
-        .remember-forgot {
-          margin: -15px 0 15px;
-          font-size: .9em;
-          color: var(--black-color);
-          display: flex;
-          justify-content: space-between;
-        }
-
-        .remember-forgot label input {
-          margin-right: 3px;
-        }
-
-        .remember-forgot a {
-          color: var(--black-color);
-          text-decoration: none;
-        }
-
-        .remember-forgot a:hover {
-          text-decoration: underline;
-        }
-
-        button {
-          width: 100%;
-          height: 40px;
-          background-color: #000;
-          border: 1px dashed aqua;
-          border-radius: 40px;
-          cursor: pointer;
-          font-size: 1em;
-          color: #66fcf1;
-          font-weight: 500;
-        }
-
-        button:hover {
-          background-color: blue;
-        }
-
-        .register-link {
-          font-size: .9em;
-          color: var(--black-color);
-          text-align: center;
-          margin: 25px 0 10px;
-        }
-
-        .register-link p a {
-          color: var(--black-color);
-          text-decoration: none;
-          font-weight: 600;
-        }
-
-        .register-link p a:hover {
-          text-decoration: underline;
-        }
-
-        @media (max-width: 500px) {
-          .login-box {
-            width: 100%;
-            height: 100vh;
-            border: none;
-            border-radius: 0;
-          }
-          .input-box {
-            width: 290px;
-          }
-        }
-    </style>
-</body>
-</html>
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+        sessionStorage.setItem('loggedIn', 'true');
+        window.location.href = user.redirectTo;
+    } else {
+        alert('Invalid credentials. Please try again.');
+    }
+}
