@@ -1,132 +1,73 @@
-const users = [
-    { email: 'Student@rohail.com', password: '12', redirectTo: '404.html' },
-    { email: 'ch@rohail.com', password: '124', redirectTo: 'admin.html' },
+// student.js
 
-    // All student users
-    { email: '28438635638@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '59227717242@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '46505998863@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '64405296569@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '86378727090@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '26585942224@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '86836494796@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '62580145876@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '37300497891@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '10969619005@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '79263522852@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '30890854615@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '34417550585@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '47861151804@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '69591755406@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '59993543066@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '97138175240@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '65132383045@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '64151792553@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '50451476918@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '15903943027@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '18383631646@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '42392129622@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '50877747699@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '3570776076@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '33923616914@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '69442325230@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '65952431271@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '67899980267@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '5932269455@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '56643714858@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '40571573469@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '49584287793@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '61298213546@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '73426426168@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '93977367846@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '49138237525@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '88386381209@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '58257978879@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '7676025026@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '22405182878@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '61922403670@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '31511657268@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '45841455591@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '49351860854@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '48028831623@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '94239615551@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '48181634162@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '83585252114@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '5528740466@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '30712783314@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '37931866004@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '9471439908@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '90514777057@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '17960379364@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '84805640907@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '26588142699@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '50915138560@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '15683686641@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '90863596040@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '52190186691@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '91250683256@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '40289329569@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '2715008595@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '75203877315@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '81075664650@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '31064104760@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '55732588155@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '4823896295@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '61474656258@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '64363116742@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '65852117809@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '53260793753@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '60952992384@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '75490930480@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '93997464473@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '27980754648@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '1844433306@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '72797755994@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '54393059155@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '44825382217@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '60680451099@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '55988347188@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '82619569434@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '13991898393@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '15065857426@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '47675606431@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '94789218359@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '76409840958@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '63921831103@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '32042254278@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '82117056441@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '61113736203@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '37507889038@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '55295868206@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '86006689642@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '87303220608@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '52137931203@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '69997738038@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '97056294767@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '31233185362@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '27849961998@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '94994477273@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '8589728963@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '51354071394@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '53488810130@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '86146443385@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '94145871071@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '79284191585@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '41349138860@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' },
-    { email: '7391300335@stu.rohail.com', password: 'student1234!@#$', redirectTo: 'student.html' }
+// List of students with their email, name, grade, course, and password
+const students = [
+    { email: '28438635638@stu.rohail.com', name: 'Student 1', grade: 'A', course: 'Math', password: 'student1234!@#$' },
+    { email: '59227717242@stu.rohail.com', name: 'Student 2', grade: 'B+', course: 'Science', password: 'student1234!@#$' },
+    { email: '46505998863@stu.rohail.com', name: 'Student 3', grade: 'A-', course: 'History', password: 'student1234!@#$' },
+    { email: '64405296569@stu.rohail.com', name: 'Student 4', grade: 'B', course: 'Chemistry', password: 'student1234!@#$' },
+    { email: '86378727090@stu.rohail.com', name: 'Student 5', grade: 'A+', course: 'Biology', password: 'student1234!@#$' },
+    { email: '26585942224@stu.rohail.com', name: 'Student 6', grade: 'B', course: 'Physics', password: 'student1234!@#$' },
+    { email: '86836494796@stu.rohail.com', name: 'Student 7', grade: 'C+', course: 'English', password: 'student1234!@#$' },
+    { email: '62580145876@stu.rohail.com', name: 'Student 8', grade: 'A', course: 'Math', password: 'student1234!@#$' },
+    { email: '37300497891@stu.rohail.com', name: 'Student 9', grade: 'B-', course: 'Geography', password: 'student1234!@#$' },
+    { email: '10969619005@stu.rohail.com', name: 'Student 10', grade: 'A', course: 'Computer Science', password: 'student1234!@#$' },
+    // Add more students as needed in the same format
+    { email: '79263522852@stu.rohail.com', name: 'Student 11', grade: 'B+', course: 'Art', password: 'student1234!@#$' },
+    { email: '30890854615@stu.rohail.com', name: 'Student 12', grade: 'A', course: 'Math', password: 'student1234!@#$' },
+    { email: '34417550585@stu.rohail.com', name: 'Student 13', grade: 'C', course: 'Biology', password: 'student1234!@#$' },
+    { email: '47861151804@stu.rohail.com', name: 'Student 14', grade: 'B+', course: 'Physics', password: 'student1234!@#$' },
+    { email: '69591755406@stu.rohail.com', name: 'Student 15', grade: 'A-', course: 'Math', password: 'student1234!@#$' },
+    // Continue adding more students...
 ];
 
-// Login handler
-function handleLogin(event) {
-    event.preventDefault();
-    const email = document.getElementById('emailInput').value;
-    const password = document.getElementById('passwordInput').value;
+// Function to extract the student ID from the URL query string
+function getStudentIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
 
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-        sessionStorage.setItem('loggedIn', 'true');
-        window.location.href = user.redirectTo;
+// Function to get student details by student ID
+function getStudentDetailsById(studentId) {
+    return students.find(student => student.email.split('@')[0] === studentId);
+}
+
+// Function to display the student's information on the page
+function displayStudentInfo(student) {
+    document.getElementById('emailDisplay').textContent = student.email;
+    document.getElementById('studentId').textContent = student.email.split('@')[0];  // Use email prefix as student ID
+    document.getElementById('studentName').textContent = student.name;
+    document.getElementById('studentGrade').textContent = student.grade;
+    document.getElementById('studentCourse').textContent = student.course;
+    document.getElementById('studentPassword').textContent = student.password; // Display the default password
+}
+
+// Function to handle the logout action
+function logout() {
+    sessionStorage.clear();
+    window.location.href = 'index.html';  // Redirect to the login page
+}
+
+// Main logic
+window.onload = function () {
+    // Get the student ID from the URL
+    const studentId = getStudentIdFromUrl();
+    
+    // If no student ID is provided, show an error and redirect to the login page
+    if (!studentId) {
+        alert('No student ID found in the URL.');
+        window.location.href = 'index.html';
+        return;
+    }
+
+    // Find the student by the ID
+    const student = getStudentDetailsById(studentId);
+
+    // If the student is found, display their information, else show an error
+    if (student) {
+        displayStudentInfo(student);
     } else {
-        alert('Invalid credentials. Please try again.');
+        alert('Student not found.');
+        window.location.href = 'index.html';  // Redirect to the login page
     }
 }
