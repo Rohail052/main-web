@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f9ff;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #1f66c1;
+    }
+
+    .student-info {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-top: 1rem;
+    }
+
+    .logout-btn {
+      margin-top: 1rem;
+      background-color: #c62828;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #a31515;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Your Student Dashboard</h1>
+  <div class="student-info">
+    <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+    <p><strong>Your ID:</strong> <span id="studentId"></span></p>
+    <p><strong>Name:</strong> <span id="studentName"></span></p>
+    <p><strong>Grade:</strong> <span id="studentGrade"></span></p>
+    <p><strong>Course:</strong> <span id="studentCourse"></span></p>
+  </div>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <script>
+    // Extract student ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get('id');
+    
+    if (!studentId) {
+      alert('No student ID found in the URL.');
+      window.location.href = 'index.html';
+    }
+
+    // Find the student by ID in the list
+    const students = [
+        { email: '28438635638@stu.rohail.com', name: 'Student 1', grade: 'A', course: 'Math' },
+        { email: '59227717242@stu.rohail.com', name: 'Student 2', grade: 'B+', course: 'Science' },
+        // Add other students here
+        // This would normally be retrieved from a database or API
+    ];
+
+    const student = students.find(s => s.email.split('@')[0] === studentId);
+
+    if (student) {
+        // Populate the student's info on the page
+        document.getElementById('emailDisplay').textContent = student.email;
+        document.getElementById('studentId').textContent = studentId;
+        document.getElementById('studentName').textContent = student.name;
+        document.getElementById('studentGrade').textContent = student.grade;
+        document.getElementById('studentCourse').textContent = student.course;
+    } else {
+        alert('Student not found.');
+        window.location.href = 'index.html';
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
