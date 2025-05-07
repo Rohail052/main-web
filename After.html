@@ -1,177 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and More</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
-            position: relative;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome | Chrohail Dashboard</title>
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 5vw;
-            text-align: center;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #000000, #1a1a1a);
+      color: #e0f7fa;
+      overflow-x: hidden;
+    }
 
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
+    header {
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid #00fff7;
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
 
-        .beautiful-btn {
-            display: inline-block;
-            padding: 1.2em 2.5em;
-            text-decoration: none;
-            color: white;
-            font-size: 1.2em;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            text-align: center;
-            min-width: 150px;
-        }
-        .beautiful-btn:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
+    header h1 {
+      color: #00fff7;
+      text-shadow: 0 0 5px #00fff7;
+      font-size: 1.5rem;
+    }
 
-        /* Top-right corner button */
-        .top-right {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-        }
+    header button {
+      background: transparent;
+      border: 2px solid #00fff7;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #00fff7;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
 
-        .top-btn {
-            padding: 10px 20px;
-            background-color: #444;
-            color: white;
-            text-decoration: none;
-            font-size: 0.9em;
-            border-radius: 20px;
-            transition: background 0.3s ease;
-        }
+    header button:hover {
+      background-color: #00fff7;
+      color: #000;
+    }
 
-        .top-btn:hover {
-            background-color: #666;
-        }
+    .container {
+      padding: 2rem;
+    }
 
-        /* Button Styles */
-        .btn-1 {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-        }
+    .welcome {
+      margin-bottom: 2rem;
+    }
 
-        .btn-1:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-        }
+    .welcome h2 {
+      color: #00fff7;
+      margin-bottom: 0.5rem;
+    }
 
-        .btn-2 {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
 
-        .btn-2:hover {
-            background: linear-gradient(135deg, #ff4b2b, #ff416c);
-        }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(0, 255, 247, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 247, 0.1);
+      transition: 0.3s ease;
+    }
 
-        .btn-3 {
-            background: linear-gradient(135deg, #36d1dc, #5b86e5);
-        }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(0, 255, 247, 0.3);
+    }
 
-        .btn-3:hover {
-            background: linear-gradient(135deg, #5b86e5, #36d1dc);
-        }
+    .card h3 {
+      color: #00fff7;
+      margin-bottom: 0.5rem;
+    }
 
-        .btn-4 {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-        }
+    .card p {
+      font-size: 0.9rem;
+      color: #d0ffff;
+    }
 
-        .btn-4:hover {
-            background: linear-gradient(135deg, #38ef7d, #11998e);
-        }
+    .activity-log {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 255, 247, 0.08);
+      border-radius: 12px;
+    }
 
-        .btn-5 {
-            background: linear-gradient(135deg, #8e2de2, #4a00e0);
-        }
+    .activity-log h3 {
+      color: #00fff7;
+      margin-bottom: 1rem;
+    }
 
-        .btn-5:hover {
-            background: linear-gradient(135deg, #4a00e0, #8e2de2);
-        }
+    .activity-log ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      color: #ccc;
+    }
 
-        /* New color for btn-6 */
-        .btn-6 {
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
-        }
+    .activity-log li {
+      margin-bottom: 0.5rem;
+    }
 
-        .btn-6:hover {
-            background: linear-gradient(135deg, #feb47b, #ff7e5f);
-        }
-
-        @media (max-width: 768px) {
-            .beautiful-btn {
-                font-size: 1em;
-                padding: 1em 2em;
-            }
-
-            h1 {
-                font-size: 6vw;
-            }
-
-            .button-container {
-                gap: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .beautiful-btn {
-                font-size: 0.9em;
-                padding: 0.8em 1.8em;
-            }
-
-            h1 {
-                font-size: 7vw;
-            }
-
-            .button-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .top-btn {
-                font-size: 0.8em;
-                padding: 8px 16px;
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+      header button {
+        padding: 6px 12px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- .Top-right Home button -->
-    <div class="top-right">
-        <a href="index.html" class="top-btn">Home</a>
+  <header>
+    <h1>👋 Chrohail Dashboard</h1>
+    <button onclick="handleLogout()">Logout</button>
+  </header>
+
+  <div class="container">
+    <div class="welcome">
+      <h2>Welcome back, <span id="userEmail">User</span>!</h2>
+      <p>Your personalized dashboard is ready to explore.</p>
     </div>
 
-    <h1>Login and More</h1>
-
-    <div class="button-container">
-        <a target="_blank" href="https://mosque-ch.netlify.app/" class="beautiful-btn btn-1">Still working</a>
-           <a target="_blank" href="reviews.html" class="beautiful-btn btn-1">Still working 2</a>
-        
+    <div class="grid">
+      <div class="card">
+        <h3>📂 My Files</h3>
+        <p>Access uploaded data and projects.</p>
+      </div>
+      <div class="card">
+        <h3>📚 Learning Hub</h3>
+        <p>Read tutorials and explore new tools.</p>
+      </div>
+      <div class="card">
+        <h3>📊 Analytics</h3>
+        <p>View stats and performance charts.</p>
+      </div>
+      <div class="card">
+        <h3>⚙️ Settings</h3>
+        <p>Update preferences and manage account.</p>
+      </div>
     </div>
+
+    <div class="activity-log">
+      <h3>🕓 Recent Activity</h3>
+      <ul id="activityList">
+        <li>Logged in to the dashboard</li>
+        <li>Viewed Learning Hub</li>
+        <li>Checked account settings</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Get email from localStorage session
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const now = new Date().getTime();
+
+    if (!userData || now > userData.expireTime) {
+      alert("Session expired. Please login again.");
+      window.location.href = "User login.html";
+    } else {
+      document.getElementById("userEmail").textContent = userData.email;
+      const activityList = document.getElementById("activityList");
+      const newLog = document.createElement("li");
+      newLog.textContent = "Accessed dashboard at " + new Date().toLocaleTimeString();
+      activityList.appendChild(newLog);
+    }
+
+    function handleLogout() {
+      localStorage.removeItem("user");
+      alert("Logged out successfully.");
+      window.location.href = "User login.html";
+    }
+  </script>
 
 </body>
 </html>
