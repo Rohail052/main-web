@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chaudhry | Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+   <link rel="icon" href="icon-192.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#25D366">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
+</head>
+<body>
+<div class="bg-animation"></div>
+
+  <header>
+    <div class="logo">Ch<span style="color:#1ed760;">Rohail</span></div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="reviews.html" target="_blank">review</a>
+      <a href="login and More.html" class="login-btn">Login and More</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <h1>Hi, I'm <span style="color:#1ed760;">Chaudhry Rohail</span></h1>
+<p class="tagline">Full-stack Developer | UI/UX Designer | AI Enthusiast</p>
+    <a href="projects.html" class="btn">View My Projects</a>
+  </section>
+
+  <section class="intro" data-aos="fade-up" data-aos-delay="100">
+    <div class="intro-card">
+      <h2>What I Do</h2>
+      <p>I craft blazing-fast, modern websites and intuitive user experiences. From clean frontends to powerful backends, I bring your ideas to life with code and creativity.</p>
+    </div>
+  </section>
+
+  <footer data-aos="fade-up" data-aos-delay="200">
+    <p>© 2024-2025 chrohail. All Rights Reserved.</p>
+    <p><a href="mailto:rohailch2023@outlook.com">contact@chrohail.dev</a></p>
+    <div class="social-icons">
+      <a href="https://github.com/" target="_blank" title="GitHub">🐱</a>
+      <a href="https://linkedin.com/in/" target="_blank" title="LinkedIn">🔗</a>
+      <a href="https://twitter.com/chrohail" target="_blank" title="Twitter">🐦</a>
+      <a href="https://instagram.com/" target="_blank" title="Instagram">📸</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-green: #1ed760;
+      --bg-dark: #0f0f0f;
+      --bg-dark-alt: #1e1e1e;
+      --light-glass: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-alt));
+      color: #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--main-green);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--main-green);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      color: var(--main-green);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .contact-info,
+    .contact-form {
+      background: var(--light-glass);
+      border-radius: 15px;
+      padding: 1.5rem;
+    }
+
+    .contact-info h2,
+    .contact-form h2 {
+      color: var(--main-green);
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-info p {
+      font-size: 1.05rem;
+      margin: 0.25rem 0;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-top: 0.8rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      background: #121212;
+      color: #fff;
+      border: 1px solid var(--main-green);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .contact-form button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--main-green);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #00b859;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--bg-dark-alt);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--main-green);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        width: 200px;
+        padding: 1rem;
+        display: none;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyPortfolio</div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="reviews.html" target="_blank">review</a>
+      <a href="login and More.html">Login & More</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <section class="hero">
+    <h1>Contact Me</h1>
+  </section>
+
+  <section class="contact-container">
+    <div class="contact-info">
+      <h2>My Address</h2>
+      <p>Greensboro, NC 27406</p>
+      <h2>Social Profiles</h2>
+      <p><strong>Email:</strong> rohailch2023@outlook.com</p>
+      <p><strong>Phone:</strong> +1 123-456-789</p>
+    </div>
+
+    <div class="contact-form">
+      <h2>Send a Message</h2>
+      <form action="https://formspree.io/f/mdkngeza" method="POST">
+        <label for="email">Your Email</label>
+        <input type="email" name="email" id="email" required placeholder="Enter your email">
+
+        <label for="message">Your Message</label>
+        <textarea name="message" id="message" required placeholder="Write your message here..."></textarea>
+
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>©2024-2025 chrohail. All Rights Reserved.</p>
+    <p><a href="mailto:rohailch2023@outlook.com">contact@chrohail.dev</a></p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('nav');
+      nav.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome | Chrohail Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #000000, #1a1a1a);
+      color: #e0f7fa;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid #00fff7;
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    header h1 {
+      color: #00fff7;
+      text-shadow: 0 0 5px #00fff7;
+      font-size: 1.5rem;
+    }
+
+    header button {
+      background: transparent;
+      border: 2px solid #00fff7;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #00fff7;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    header button:hover {
+      background-color: #00fff7;
+      color: #000;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .welcome {
+      margin-bottom: 2rem;
+    }
+
+    .welcome h2 {
+      color: #00fff7;
+      margin-bottom: 0.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(0, 255, 247, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 247, 0.1);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(0, 255, 247, 0.3);
+    }
+
+    .card h3 {
+      color: #00fff7;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #d0ffff;
+    }
+
+    .activity-log {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 255, 247, 0.08);
+      border-radius: 12px;
+    }
+
+    .activity-log h3 {
+      color: #00fff7;
+      margin-bottom: 1rem;
+    }
+
+    .activity-log ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      color: #ccc;
+    }
+
+    .activity-log li {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+      header button {
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>👋 Chrohail Dashboard</h1>
+    <button onclick="handleLogout()">Logout</button>
+  </header>
+
+  <div class="container">
+    <div class="welcome">
+      <h2>Welcome back, <span id="userEmail">User</span>!</h2>
+      <p>Your personalized dashboard is ready to explore.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>📂 My Files</h3>
+        <p>Access uploaded data and projects.</p>
+      </div>
+      <div class="card">
+        <h3>📚 Learning Hub</h3>
+        <p>Read tutorials and explore new tools.</p>
+      </div>
+      <div class="card">
+        <h3>📊 Analytics</h3>
+        <p>View stats and performance charts.</p>
+      </div>
+      <div class="card">
+        <h3>⚙️ Settings</h3>
+        <p>Update preferences and manage account.</p>
+      </div>
+    </div>
+
+    <div class="activity-log">
+      <h3>🕓 Recent Activity</h3>
+      <ul id="activityList">
+        <li>Logged in to the dashboard</li>
+        <li>Viewed Learning Hub</li>
+        <li>Checked account settings</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Get email from localStorage session
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const now = new Date().getTime();
+
+    if (!userData || now > userData.expireTime) {
+      alert("Session expired. Please login again.");
+      window.location.href = "User login.html";
+    } else {
+      document.getElementById("userEmail").textContent = userData.email;
+      const activityList = document.getElementById("activityList");
+      const newLog = document.createElement("li");
+      newLog.textContent = "Accessed dashboard at " + new Date().toLocaleTimeString();
+      activityList.appendChild(newLog);
+    }
+
+    function handleLogout() {
+      localStorage.removeItem("user");
+      alert("Logged out successfully.");
+      window.location.href = "User login.html";
+    }
+  </script>
+
+</body>
+</html>

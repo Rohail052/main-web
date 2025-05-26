@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #1b1b2f;
+      color: #fff;
+      padding: 2rem;
+    }
+
+    .dashboard {
+      max-width: 600px;
+      margin: auto;
+      background: #293462;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    h2 {
+      color: #00fff7;
+    }
+
+    .info {
+      margin-bottom: 1rem;
+    }
+
+    .logout {
+      background: #ff5252;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h2>Welcome, <span id="studentName"></span></h2>
+    <div class="info">Email: <span id="emailDisplay"></span></div>
+    <div class="info">Student ID: <span id="studentId"></span></div>
+    <div class="info">Grade: <span id="studentGrade"></span></div>
+    <div class="info">Course: <span id="studentCourse"></span></div>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script src="students.js"></script>
+  <script>
+    function getStudentIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    function getStudentDetailsById(id) {
+      return students.find(s => s.email.split("@")[0] === id);
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+
+    window.onload = function () {
+      const studentId = getStudentIdFromUrl();
+
+      if (!studentId) {
+        alert("No student ID provided.");
+        logout();
+        return;
+      }
+
+      const student = getStudentDetailsById(studentId);
+
+      if (!student) {
+        alert("Student not found.");
+        logout();
+        return;
+      }
+
+      document.getElementById("studentName").textContent = student.name;
+      document.getElementById("emailDisplay").textContent = student.email;
+      document.getElementById("studentId").textContent = student.email.split("@")[0];
+      document.getElementById("studentGrade").textContent = student.grade;
+      document.getElementById("studentCourse").textContent = student.course;
+    };
+  </script>
+</body>
+</html>
