@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title id="page-title">Welcome | Chrohail Dashboard</title>
 
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js" defer></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <style>
     body {
@@ -224,6 +227,24 @@
   </div>
 
   <script>
+    // Firebase Configuration - IMPORTANT: Use the exact same config as in auth.js
+    const firebaseConfig = {
+        apiKey: "AIzaSyBgz4GkCfMNzn7_nV4P7yry-MilTDDNbbI",
+        authDomain: "login-d7f88.firebaseapp.com",
+        projectId: "login-d7f88",
+        storageBucket: "login-d7f88.appspot.com",
+        messagingSenderId: "179833264327",
+        appId: "1:179833264327:web:f405fc98edf2c2fe4f06e2",
+        measurementId: "G-EL3NPFDQFL"
+    };
+
+    // Initialize Firebase
+    // Check if firebase is already initialized to prevent errors on hot reload
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
     // --- Translations Data ---
     const translations = {
       en: {
@@ -475,7 +496,7 @@
     const logoutButton = document.getElementById("logout-button");
     const maintenanceAlert = document.getElementById("maintenance-alert");
     const welcomeMessage = document.getElementById("welcome-message");
-    const userEmailSpan = document.getElementById("userEmail"); // Renamed for clarity
+    const userEmailSpan = document.getElementById("userEmail");
     const supportText = document.getElementById("support-text");
     const filesCardTitle = document.getElementById("files-card-title");
     const filesCardDesc = document.getElementById("files-card-desc");
@@ -507,7 +528,8 @@
       dashboardTitle.textContent = t.dashboardTitle;
       logoutButton.textContent = t.logoutButton;
       maintenanceAlert.textContent = t.maintenanceAlert;
-      welcomeMessage.innerHTML = t.welcomeMessage.replace("{email}", `<span id="userEmail">${userEmailSpan.textContent}</span>`); // Keep span for dynamic email
+      // Re-insert user email correctly after changing message
+      welcomeMessage.innerHTML = t.welcomeMessage.replace("{email}", `<span id="userEmail">${userEmailSpan.textContent}</span>`);
       supportText.textContent = t.supportText;
       filesCardTitle.textContent = t.filesCardTitle;
       filesCardDesc.textContent = t.filesCardDesc;
@@ -568,27 +590,45 @@
     }
 
 
-    // --- Session Handling ---
-    const userData = JSON.parse(localStorage.getItem("user"));
-    const now = new Date().getTime();
-
-    if (!userData || now > userData.expireTime) {
-      alert(translations.en.sessionExpiredAlert); // Use English for alerts before lang is set
-      window.location.href = "User login.html";
-    } else {
-      userEmailSpan.textContent = userData.email;
-      addDynamicActivity("accessedDashboardActivity", { time: new Date().toLocaleTimeString() });
-    }
+    // --- Session Handling with Firebase Authentication ---
+    // This listener will fire when the auth state changes (on login, logout, page load)
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // User is signed in.
+            console.log("User logged in:", user.email);
+            userEmailSpan.textContent = user.email; // Display user's email
+            // Add initial activity only if not already added (e.g., first load)
+            if (currentActivities.length === 0 || !currentActivities.some(activity => activity.includes(user.email))) {
+                addDynamicActivity("accessedDashboardActivity", { time: new Date().toLocaleTimeString() });
+            }
+            // Now apply translations as user is confirmed
+            const savedLang = localStorage.getItem("selectedLanguage") || "en";
+            languageSelect.value = savedLang;
+            applyTranslations(savedLang);
+        } else {
+            // No user is signed in. Redirect to login page.
+            console.log("No user logged in. Redirecting to login.");
+            alert(translations.en.sessionExpiredAlert); // Use English for alert before redirection
+            window.location.href = "User login.html";
+        }
+    });
 
     // --- Event Listeners ---
     languageSelect.addEventListener("change", (event) => {
-      applyTranslations(event.target.value);
+      const selectedLang = event.target.value;
+      localStorage.setItem("selectedLanguage", selectedLang); // Save selected language
+      applyTranslations(selectedLang);
     });
 
-    function handleLogout() {
-      localStorage.removeItem("user");
-      alert(translations[languageSelect.value].logoutSuccessAlert);
-      window.location.href = "User login.html";
+    async function handleLogout() {
+      try {
+        await auth.signOut(); // Sign out from Firebase
+        alert(translations[languageSelect.value].logoutSuccessAlert);
+        window.location.href = "User login.html"; // Redirect to login page
+      } catch (error) {
+        console.error("Logout Error:", error);
+        alert("Error logging out: " + error.message);
+      }
     }
 
     function goToSettings() {
@@ -597,12 +637,9 @@
     }
 
     // --- Initial setup on load ---
-    document.addEventListener("DOMContentLoaded", () => {
-      // Set default language or load from localStorage if previously set
-      const savedLang = localStorage.getItem("selectedLanguage") || "en";
-      languageSelect.value = savedLang;
-      applyTranslations(savedLang); // Apply translations on initial load
-    });
+    // The auth.onAuthStateChanged listener handles the initial setup based on user status.
+    // No need for a separate DOMContentLoaded listener to check localStorage for 'user' data,
+    // as Firebase auth state handles it.
   </script>
 
 </body>
