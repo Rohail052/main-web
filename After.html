@@ -227,6 +227,14 @@
   </div>
 
   <script>
+
+  function goToSettings(){
+      alert("Redirecting to settings to change your username or password...");
+      window.location.href = "settings.html";
+    }
+
+
+      
     // Firebase Configuration - IMPORTANT: Use the exact same config as in auth.js
     const firebaseConfig = {
         apiKey: "AIzaSyBgz4GkCfMNzn7_nV4P7yry-MilTDDNbbI",
@@ -631,10 +639,6 @@
       }
     }
 
-    function goToSettings() {
-      alert(translations[languageSelect.value].redirectingToSettingsAlert);
-      window.location.href = "settings.html"; // Replace with your actual settings page
-    }
 
     // --- Initial setup on load ---
     // The auth.onAuthStateChanged listener handles the initial setup based on user status.
