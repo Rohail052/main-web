@@ -1,0 +1,114 @@
+:root {
+    --bg: #121212;
+    --accent: #00FFFF;
+    --text: #eeeeee;
+    --dark-gray: #1e1e1e;
+}
+
+body {
+    margin: 0;
+    font-family:'Helvetica Neue', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+}
+
+.container {
+    z-index: 1;
+}
+
+.logo img {
+    width: 100px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 30px var(--accent)); 
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+h1 {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent);
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent); }
+    50% { text-shadow: 0 0 10px var(--accent), 0 0 30px var(--accent); }
+}
+
+p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #aaaaaa;
+}
+
+a {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px 5px var(--accent);
+}
+
+a:hover {
+    background: #00bfbf;
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px 10px var(--accent);
+}
+
+.particles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particles span {
+    position: absolute;
+    bottom: -20px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: rise 10s linear infinite;
+    left: calc(100% * var(--i)); 
+    transform: translateX(-50%) scale(0.5);
+    box-shadow: 0 0 10px 5px var(--accent);
+    filter: blur(2px);
+   .opacity: 0;
+}
+
+@keyframes rise {
+    0% { transform: translateX(0) translateY(0) scale(0.5); }
+    50% { transform: translateX(30px) translateY(-50vh) scale(1); }
+    100% { transform: translateX(0) translateY(-100vh) scale(0.5); }
+}
+
+@media (max-width: 500px) {
+    h1 { font-size: 4rem; }
+    p { font-size: 1.2rem; }
+    a { padding: 0.5rem 1rem; }
+    .logo img { width: 80px; }
+}
