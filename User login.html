@@ -1,209 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: url('https://i.pinimg.com/originals/09/05/a7/0905a74092fa43fce6218aa48f6a26a4.jpg') no-repeat;
-            background-size: cover;
-            background-position: center;
-        }
-        .login-box {
-            width: 400px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            border: 2px solid rgba(255, 0, 0, 0.349);
-        }
-        h2 { margin-bottom: 20px; }
-        .input-box { position: relative; margin: 15px 0; }
-        .input-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid white;
-            background: transparent;
-            color: white;
-            border-radius: 5px;
-            outline: none;
-        }
-        .input-box label {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            font-size: 14px;
-            color: white;
-            pointer-events: none;
-            transition: 0.5s;
-        }
-        .input-box input:focus ~ label,
-        .input-box input:valid ~ label {
-            top: 0;
-            font-size: 12px;
-            color: aqua;
-        }
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-        }
-        .remember-forgot a {
-            color: aqua;
-            text-decoration: none;
-        }
-        .remember-forgot a:hover { text-decoration: underline; }
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background: black;
-            color: aqua;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover { background: blue; }
-        .register-link {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .register-link a {
-            color: aqua;
-            text-decoration: none;
-        }
-        .register-link a:hover { text-decoration: underline; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js" defer></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      background: url('https://cdn.pixabay.com/photo/2015/04/23/04/34/planet-731537_1280.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .login-box {
+      width: 360px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 18px;
+      box-shadow: 0 0 25px cyan;
+      color: white;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      background: transparent;
+      border: 2px solid cyan;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .input-group input:focus {
+      border-color: #00ffff;
+    }
+    .input-group label {
+      position: absolute;
+      top: 12px;
+      left: 18px;
+      color: cyan;
+      pointer-events: none;
+      font-size: 14px;
+      transition: 0.3s ease all;
+    }
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 12px;
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0 6px;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 13px 0;
+      background: cyan;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      color: black;
+      transition: background 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    button:hover {
+      background: #00e5ff;
+    }
+    .social-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0 10px;
+    }
+    .social-buttons button {
+      flex: 1;
+      margin: 0 6px;
+      padding: 10px 0;
+      background: transparent;
+      border: 2px solid cyan;
+      border-radius: 12px;
+      color: cyan;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    .social-buttons button:hover {
+      background: cyan;
+      color: black;
+    }
+    .social-icon {
+      width: 20px;
+      height: 20px;
+      filter: invert(72%) sepia(7%) saturate(441%) hue-rotate(132deg) brightness(87%) contrast(85%);
+      transition: filter 0.3s ease;
+    }
+    .social-buttons button:hover .social-icon {
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%)
+    }
+    .links {
+      margin-top: 10px;
+      font-size: 14px;
+      color: cyan;
+    }
+    .links a {
+      color: cyan;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    #spinner {
+      display: none;
+      margin: 10px 0;
+      color: cyan;
+      font-weight: 600;
+    }
+    @media(max-width:400px) {
+      .login-box {
+        width: 90vw;
+      }
+      .social-buttons button {
+        margin: 0 4px;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="login-box">
-        <form id="loginForm">
-            <h2>Login</h2>
+  <div class="login-box">
+    <form id="loginForm" autocomplete="off" novalidate>
+      <h2>Login</h2>
 
-            <div class="input-box">
-                <input type="email" id="emailInput" required>
-                <label>Email</label>
-            </div>
+      <div class="input-group">
+        <input type="email" id="emailInput" placeholder=" " required autocomplete="username" />
+        <label for="emailInput">Email</label>
+      </div>
 
-            <div class="input-box">
-                <input type="password" id="passwordInput" required>
-                <label>Password</label>
-            </div>
+      <div class="input-group">
+        <input type="password" id="passwordInput" placeholder=" " required autocomplete="current-password" />
+        <label for="passwordInput">Password</label>
+      </div>
 
-            <div class="remember-forgot">
-                <label><input type="checkbox"> Remember me</label>
-                <a href="#" onclick="resetPassword()">Forgot Password?</a>
-            </div>
+      <div class="links" style="display:flex; justify-content: space-between; font-size: 14px">
+        <label style="color:cyan; user-select:none">
+          <input type="checkbox" id="rememberMe" style="margin-right:6px" /> Remember me
+        </label>
+        <a href="#" onclick="resetPassword()">Forgot Password?</a>
+      </div>
 
-            <button type="submit">Login</button>
+      <button type="submit">Login</button>
 
-            <div class="register-link">
-                <p>Don't have an account? <a href="#" onclick="registerUser()">Register</a></p>
-            </div>
-        </form>
-    </div>
+      <div class="social-buttons">
+        <button type="button" id="googleLogin" aria-label="Login with Google">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/32px-Google_%22G%22_Logo.svg.png" alt="Google logo" class="social-icon" />
+          Google
+        </button>
+        <button type="button" id="facebookLogin" aria-label="Login with Facebook">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/32px-F_icon.svg.png" alt="Facebook logo" class="social-icon" />
+          Facebook
+        </button>
+        <button type="button" id="appleLogin" aria-label="Login with Apple">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple logo" class="social-icon" />
+          Apple
+        </button>
+      </div>
 
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBgz4GkCfMNzn7_nV4P7yry-MilTDDNbbI",
-            authDomain: "login-d7f88.firebaseapp.com",
-            projectId: "login-d7f88",
-            storageBucket: "login-d7f88.appspot.com",
-            messagingSenderId: "179833264327",
-            appId: "1:179833264327:web:f405fc98edf2c2fe4f06e2",
-            measurementId: "G-EL3NPFDQFL"
-        };
+      <div class="links">
+        <p>Don't have an account? <a href="#" onclick="registerUser()">Register</a></p>
+      </div>
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+      <div id="spinner">Loading...</div>
+    </form>
+  </div>
 
-        // Auto-redirect if user is already logged in
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                const storedUser = JSON.parse(localStorage.getItem("user"));
-                if (storedUser && new Date().getTime() < storedUser.expireTime) {
-                    window.location.href = "After.html";
-                } else {
-                    localStorage.removeItem("user");
-                    auth.signOut();
-                }
-            }
-        });
-
-        // Login Function
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('emailInput').value;
-            const password = document.getElementById('passwordInput').value;
-
-            auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    const user = userCredential.user;
-                    
-                    // Set session expiration time (10 minutes)
-                    const expirationTime = new Date().getTime() + 10 * 60 * 1000;
-                    localStorage.setItem("user", JSON.stringify({ email: user.email, expireTime: expirationTime }));
-
-                    alert("Login successful!");
-                    window.location.href = "After.html";
-                })
-                .catch(error => alert(error.message));
-        });
-
-        // Register Function
-        function registerUser() {
-            const email = prompt("Enter your email:");
-            const password = prompt("Enter a password:");
-
-            if (email && password) {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(() => alert("Registration successful!"))
-                    .catch(error => alert(error.message));
-            }
-        }
-
-        // Password Reset Function
-        function resetPassword() {
-            const email = prompt("Enter your email to reset password:");
-            if (email) {
-                auth.sendPasswordResetEmail(email)
-                    .then(() => alert("Password reset email sent!"))
-                    .catch(error => alert(error.message));
-            }
-        }
-
-        // Logout Function
-        function handleLogout() {
-            auth.signOut().then(() => {
-                localStorage.removeItem("user");
-                alert("Logged out successfully!");
-                window.location.href = "User login.html";
-            }).catch(error => alert(error.message));
-        }
-    </script>
-
+  <script src="auth.js" defer></script>
 </body>
 </html>
