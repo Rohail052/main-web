@@ -1,650 +1,624 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="page-title">Welcome | Chrohail Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title id="page-title">Welcome | Chrohail Dashboard</title>
 
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to right, #000000, #1a1a1a);
+            color: #e0f7fa;
+            overflow-x: hidden;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(to right, #000000, #1a1a1a);
-      color: #e0f7fa;
-      overflow-x: hidden;
-    }
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #00fff7;
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
 
-    header {
-      background: rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid #00fff7;
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
+        header h1 {
+            color: #00fff7;
+            text-shadow: 0 0 5px #00fff7;
+            font-size: 1.5rem;
+        }
 
-    header h1 {
-      color: #00fff7;
-      text-shadow: 0 0 5px #00fff7;
-      font-size: 1.5rem;
-    }
+        header button {
+            background: transparent;
+            border: 2px solid #00fff7;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #00fff7;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-left: 1rem;
+        }
 
-    header button {
-      background: transparent;
-      border: 2px solid #00fff7;
-      padding: 8px 16px;
-      border-radius: 8px;
-      color: #00fff7;
-      cursor: pointer;
-      transition: 0.3s ease;
-      margin-left: 1rem; /* Added margin for spacing with select */
-    }
+        header button:hover {
+            background-color: #00fff7;
+            color: #000;
+        }
 
-    header button:hover {
-      background-color: #00fff7;
-      color: #000;
-    }
+        header select {
+            background: transparent;
+            border: 2px solid #00fff7;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #00fff7;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300fff7%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.1-3.1-8.2-3.1-11.3%2C0l-127.8%2C127.8c-3.1%2C3.1-3.1%2C8.2%2C0%2C11.3l11.3%2C11.3c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0l110.1-110.1L264.4%2C220c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0l11.3-11.3C290.1%2C205.5%2C290.1%2C200.4%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.7em top 50%, 0 0;
+            background-size: 0.65em auto, 100%;
+        }
 
-    header select { /* Styles for the new select element */
-      background: transparent;
-      border: 2px solid #00fff7;
-      padding: 8px 16px;
-      border-radius: 8px;
-      color: #00fff7;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.3s ease;
-      -webkit-appearance: none; /* Remove default select styles for better custom styling */
-      -moz-appearance: none;
-      appearance: none;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300fff7%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.1-3.1-8.2-3.1-11.3%2C0l-127.8%2C127.8c-3.1%2C3.1-3.1%2C8.2%2C0%2C11.3l11.3%2C11.3c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0l110.1-110.1L264.4%2C220c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0l11.3-11.3C290.1%2C205.5%2C290.1%2C200.4%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
-      background-repeat: no-repeat;
-      background-position: right 0.7em top 50%, 0 0;
-      background-size: 0.65em auto, 100%;
-    }
+        header select option {
+            background-color: #000;
+            color: #00fff7;
+        }
 
-    header select option {
-      background-color: #000; /* Dark background for options */
-      color: #00fff7; /* Text color for options */
-    }
+        header select:hover {
+            background-color: #00fff7;
+            color: #000;
+        }
+        header select:hover option {
+            background-color: #00fff7;
+            color: #000;
+        }
 
-    header select:hover {
-      background-color: #00fff7;
-      color: #000;
-    }
-    header select:hover option {
-      background-color: #00fff7; /* Hover background for options */
-      color: #000; /* Hover text color for options */
-    }
+        .container {
+            padding: 2rem;
+        }
 
+        .alert {
+            background-color: #ff1744;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
+        }
 
-    .container {
-      padding: 2rem;
-    }
+        .welcome {
+            margin-bottom: 2rem;
+        }
 
-    .alert {
-      background-color: #ff1744;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      font-weight: bold;
-      box-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
-    }
+        .welcome h2 {
+            color: #00fff7;
+            margin-bottom: 0.5rem;
+        }
 
-    .welcome {
-      margin-bottom: 2rem;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
 
-    .welcome h2 {
-      color: #00fff7;
-      margin-bottom: 0.5rem;
-    }
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 247, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 247, 0.1);
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 247, 0.3);
+        }
 
-    .card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(12px);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid rgba(0, 255, 247, 0.1);
-      box-shadow: 0 0 20px rgba(0, 255, 247, 0.1);
-      transition: 0.3s ease;
-      cursor: pointer;
-    }
+        .card h3 {
+            color: #00fff7;
+            margin-bottom: 0.5rem;
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 30px rgba(0, 255, 247, 0.3);
-    }
+        .card p {
+            font-size: 0.9rem;
+            color: #d0ffff;
+        }
 
-    .card h3 {
-      color: #00fff7;
-      margin-bottom: 0.5rem;
-    }
+        .activity-log {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 255, 247, 0.08);
+            border-radius: 12px;
+        }
 
-    .card p {
-      font-size: 0.9rem;
-      color: #d0ffff;
-    }
+        .activity-log h3 {
+            color: #00fff7;
+            margin-bottom: 1rem;
+        }
 
-    .activity-log {
-      margin-top: 3rem;
-      padding: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(0, 255, 247, 0.08);
-      border-radius: 12px;
-    }
+        .activity-log ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: #ccc;
+        }
 
-    .activity-log h3 {
-      color: #00fff7;
-      margin-bottom: 1rem;
-    }
+        .activity-log li {
+            margin-bottom: 0.5rem;
+        }
 
-    .activity-log ul {
-      list-style-type: disc;
-      padding-left: 1.5rem;
-      color: #ccc;
-    }
-
-    .activity-log li {
-      margin-bottom: 0.5rem;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.2rem;
-      }
-      header button {
-        padding: 6px 12px;
-      }
-    }
-  </style>
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+            header button {
+                padding: 6px 12px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1 id="dashboard-title">👋 Chrohail Dashboard</h1>
-    <div>
-      <select id="language-select" aria-label="Select Language">
-        <option value="en">English</option>
-        <option value="ur">Urdu</option>
-        <option value="ar">Arabic</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-        <option value="de">German</option>
-        <option value="zh">Chinese</option>
-        <option value="hi">Hindi</option>
-        <option value="ru">Russian</option>
-        <option value="ja">Japanese</option>
-      </select>
-      <button onclick="handleLogout()" id="logout-button">Logout</button>
+    <header>
+        <h1 id="dashboard-title">👋 Chrohail Dashboard</h1>
+        <div>
+            <select id="language-select" aria-label="Select Language">
+                <option value="en">English</option>
+                <option value="ur">Urdu</option>
+                <option value="ar">Arabic</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="zh">Chinese</option>
+                <option value="hi">Hindi</option>
+                <option value="ru">Russian</option>
+                <option value="ja">Japanese</option>
+            </select>
+            <button id="logout-button">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="alert" id="maintenance-alert">🚨 Maintenance today at 08 PM. Expect brief downtime.</div>
+
+        <div class="welcome">
+            <h2 id="welcome-message">Welcome back, <span id="user-email">User</span>!</h2>
+            <p id="support-text">For customer support, please call 1-863-208-0022 and use the call PIN: 167 117 442 # </p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3 id="files-card-title">📂 My Files</h3>
+                <p id="files-card-desc">Access uploaded data and projects.</p>
+            </div>
+            <div class="card">
+                <h3 id="learning-card-title">📚 Learning Hub</h3>
+                <p id="learning-card-desc">Read tutorials and explore new tools.</p>
+            </div>
+            <div class="card">
+                <h3 id="analytics-card-title">📊 Analytics</h3>
+                <p id="analytics-card-desc">View stats and performance charts.</p>
+            </div>
+            <div class="card" id="settings-card">
+                <h3 id="settings-card-title">⚙️ Settings</h3>
+                <p id="settings-card-desc">Update your username or password.</p>
+            </div>
+        </div>
+
+        <div class="activity-log">
+            <h3 id="activity-log-title">🕓 Recent Activity</h3>
+            <ul id="activity-list"></ul>
+        </div>
     </div>
-  </header>
 
-  <div class="container">
-    <div class="alert" id="maintenance-alert">🚨 Maintenance today at 08 PM. Expect brief downtime.</div>
-
-    <div class="welcome">
-      <h2 id="welcome-message">Welcome back, <span id="userEmail">User</span>!</h2>
-      <p id="support-text">For customer support, please call 1-863-208-0022 and use the call PIN: 167 117 442 # </p>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <h3 id="files-card-title">📂 My Files</h3>
-        <p id="files-card-desc">Access uploaded data and projects.</p>
-      </div>
-      <div class="card">
-        <h3 id="learning-card-title">📚 Learning Hub</h3>
-        <p id="learning-card-desc">Read tutorials and explore new tools.</p>
-      </div>
-      <div class="card">
-        <h3 id="analytics-card-title">📊 Analytics</h3>
-        <p id="analytics-card-desc">View stats and performance charts.</p>
-      </div>
-      <div class="card" onclick="goToSettings()">
-        <h3 id="settings-card-title">⚙️ Settings</h3>
-        <p id="settings-card-desc">Update your username or password.</p>
-      </div>
-    </div>
-
-    <div class="activity-log">
-      <h3 id="activity-log-title">🕓 Recent Activity</h3>
-      <ul id="activityList">
-        </ul>
-    </div>
-  </div>
-
-  <script>
-
-  function goToSettings(){
-      alert("Redirecting to settings to change your username or password...");
-      window.location.href = "settings.html";
-    }
-
-
-      
-    // Firebase Configuration - IMPORTANT: Use the exact same config as in auth.js
-    const firebaseConfig = {
-        apiKey: "AIzaSyBgz4GkCfMNzn7_nV4P7yry-MilTDDNbbI",
-        authDomain: "login-d7f88.firebaseapp.com",
-        projectId: "login-d7f88",
-        storageBucket: "login-d7f88.appspot.com",
-        messagingSenderId: "179833264327",
-        appId: "1:179833264327:web:f405fc98edf2c2fe4f06e2",
-        measurementId: "G-EL3NPFDQFL"
-    };
-
-    // Initialize Firebase
-    // Check if firebase is already initialized to prevent errors on hot reload
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-    const auth = firebase.auth();
-
-    // --- Translations Data ---
-    const translations = {
-      en: {
-        pageTitle: "Welcome | Chrohail Dashboard",
-        dashboardTitle: "👋 Chrohail Dashboard",
-        logoutButton: "Logout",
-        maintenanceAlert: "🚨 Maintenance today at 08 PM. Expect brief downtime.",
-        welcomeMessage: "Welcome back, {email}!",
-        supportText: "For customer support, please call 1-863-208-0022 and use the call PIN: 164 299 627#",
-        filesCardTitle: "📂 My Files",
-        filesCardDesc: "Access uploaded data and projects.",
-        learningCardTitle: "📚 Learning Hub",
-        learningCardDesc: "Read tutorials and explore new tools.",
-        analyticsCardTitle: "📊 Analytics",
-        analyticsCardDesc: "View stats and performance charts.",
-        settingsCardTitle: "⚙️ Settings",
-        settingsCardDesc: "Update your username or password.",
-        activityLogTitle: "🕓 Recent Activity",
-        loggedInActivity: "Logged in to the dashboard",
-        viewedLearningHubActivity: "Viewed Learning Hub",
-        checkedSettingsActivity: "Checked account settings",
-        accessedDashboardActivity: "Accessed dashboard at {time}",
-        sessionExpiredAlert: "Session expired. Please login again.",
-        logoutSuccessAlert: "Logged out successfully.",
-        redirectingToSettingsAlert: "Redirecting to settings to change username/password...",
-      },
-      ur: {
-        pageTitle: "خوش آمدید | چروہیل ڈیش بورڈ",
-        dashboardTitle: "👋 چروہیل ڈیش بورڈ",
-        logoutButton: "لاگ آؤٹ",
-        maintenanceAlert: "🚨 آج رات 10 بجے دیکھ بھال کا کام ہے۔ مختصر وقت کے لیے سروس میں رکاوٹ کی توقع ہے۔",
-        welcomeMessage: "خوش آمدید، {email}!",
-        supportText: "کسٹمر سپورٹ کے لیے، براہ کرم 1-863-208-0022 پر کال کریں اور کال پن استعمال کریں: 164 299 627#",
-        filesCardTitle: "📂 میری فائلز",
-        filesCardDesc: "اپ لوڈ کردہ ڈیٹا اور پروجیکٹس تک رسائی حاصل کریں۔",
-        learningCardTitle: "📚 لرننگ ہب",
-        learningCardDesc: "ٹیوٹوریلز پڑھیں اور نئے ٹولز دریافت کریں۔",
-        analyticsCardTitle: "📊 تجزیات",
-        analyticsCardDesc: "اعداد و شمار اور کارکردگی کے چارٹس دیکھیں۔",
-        settingsCardTitle: "⚙️ ترتیبات",
-        settingsCardDesc: "اپنا صارف نام یا پاس ورڈ اپ ڈیٹ کریں۔",
-        activityLogTitle: "🕓 حالیہ سرگرمی",
-        loggedInActivity: "ڈیش بورڈ میں لاگ ان کیا",
-        viewedLearningHubActivity: "لرننگ ہب دیکھا",
-        checkedSettingsActivity: "اکاؤنٹ کی ترتیبات چیک کیں",
-        accessedDashboardActivity: "ڈیش بورڈ تک رسائی حاصل کی {time} بجے",
-        sessionExpiredAlert: "سیشن ختم ہو گیا ہے۔ براہ کرم دوبارہ لاگ ان کریں۔",
-        logoutSuccessAlert: "کامیابی سے لاگ آؤٹ ہو گئے۔",
-        redirectingToSettingsAlert: "صارف نام/پاس ورڈ تبدیل کرنے کے لیے ترتیبات پر ری ڈائریکٹ کر رہا ہے...",
-      },
-      ar: {
-        pageTitle: "مرحباً | لوحة تحكم الشروهيل",
-        dashboardTitle: "👋 لوحة تحكم الشروهيل",
-        logoutButton: "تسجيل الخروج",
-        maintenanceAlert: "🚨 صيانة الليلة الساعة 10 مساءً. توقع توقفًا مؤقتًا للخدمة.",
-        welcomeMessage: "مرحباً بك، {email}!",
-        supportText: "للدعم الفني، يرجى الاتصال بالرقم 1-863-208-0022 واستخدام رمز الاتصال: 164 299 627#",
-        filesCardTitle: "📂 ملفاتي",
-        filesCardDesc: "الوصول إلى البيانات والمشاريع المحملة.",
-        learningCardTitle: "📚 مركز التعلم",
-        learningCardDesc: "قراءة البرامج التعليمية واستكشاف أدوات جديدة.",
-        analyticsCardTitle: "📊 التحليلات",
-        analyticsCardDesc: "عرض الإحصائيات ورسوم الأداء البيانية.",
-        settingsCardTitle: "⚙️ الإعدادات",
-        settingsCardDesc: "تحديث اسم المستخدم أو كلمة المرور.",
-        activityLogTitle: "🕓 النشاط الأخير",
-        loggedInActivity: "تم تسجيل الدخول إلى لوحة التحكم",
-        viewedLearningHubActivity: "تم عرض مركز التعلم",
-        checkedSettingsActivity: "تم التحقق من إعدادات الحساب",
-        accessedDashboardActivity: "تم الدخول إلى لوحة التحكم في {time}",
-        sessionExpiredAlert: "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
-        logoutSuccessAlert: "تم تسجيل الخروج بنجاح.",
-        redirectingToSettingsAlert: "جارٍ إعادة التوجيه إلى الإعدادات لتغيير اسم المستخدم/كلمة المرور...",
-      },
-      es: {
-        pageTitle: "Bienvenido | Panel de Chrohail",
-        dashboardTitle: "👋 Panel de Chrohail",
-        logoutButton: "Cerrar sesión",
-        maintenanceAlert: "🚨 Mantenimiento esta noche a las 10 PM. Espere un breve tiempo de inactividad.",
-        welcomeMessage: "¡Bienvenido de nuevo, {email}!",
-        supportText: "Para soporte al cliente, por favor llame al 1-863-208-0022 y use el PIN de llamada: 164 299 627#",
-        filesCardTitle: "📂 Mis Archivos",
-        filesCardDesc: "Acceda a datos y proyectos subidos.",
-        learningCardTitle: "📚 Centro de Aprendizaje",
-        learningCardDesc: "Lea tutoriales y explore nuevas herramientas.",
-        analyticsCardTitle: "📊 Analíticas",
-        analyticsCardDesc: "Vea estadísticas y gráficos de rendimiento.",
-        settingsCardTitle: "⚙️ Configuración",
-        settingsCardDesc: "Actualice su nombre de usuario o contraseña.",
-        activityLogTitle: "🕓 Actividad Reciente",
-        loggedInActivity: "Sesión iniciada en el panel",
-        viewedLearningHubActivity: "Centro de aprendizaje visto",
-        checkedSettingsActivity: "Configuración de la cuenta revisada",
-        accessedDashboardActivity: "Acceso al panel a las {time}",
-        sessionExpiredAlert: "Sesión caducada. Por favor, inicie sesión de nuevo.",
-        logoutSuccessAlert: "Sesión cerrada con éxito.",
-        redirectingToSettingsAlert: "Redirigiendo a la configuración para cambiar el nombre de usuario/contraseña...",
-      },
-      fr: {
-        pageTitle: "Bienvenue | Tableau de bord Chrohail",
-        dashboardTitle: "👋 Tableau de bord Chrohail",
-        logoutButton: "Déconnexion",
-        maintenanceAlert: "🚨 Maintenance ce soir à 22h. Attendez-vous à une brève interruption de service.",
-        welcomeMessage: "Bienvenue de nouveau, {email} !",
-        supportText: "Pour le support client, veuillez appeler le 1-863-208-0022 et utiliser le code PIN d'appel : 164 299 627#",
-        filesCardTitle: "📂 Mes fichiers",
-        filesCardDesc: "Accédez aux données et projets téléchargés.",
-        learningCardTitle: "📚 Centre d'apprentissage",
-        learningCardDesc: "Lisez des tutoriels et explorez de nouveaux outils.",
-        analyticsCardTitle: "📊 Analyse",
-        analyticsCardDesc: "Consultez les statistiques et les graphiques de performance.",
-        settingsCardTitle: "⚙️ Paramètres",
-        settingsCardDesc: "Mettez à jour votre nom d'utilisateur ou votre mot de passe.",
-        activityLogTitle: "🕓 Activité récente",
-        loggedInActivity: "Connecté au tableau de bord",
-        viewedLearningHubActivity: "Consulté le Centre d'apprentissage",
-        checkedSettingsActivity: "Vérifié les paramètres du compte",
-        accessedDashboardActivity: "Accédé au tableau de bord à {time}",
-        sessionExpiredAlert: "Session expirée. Veuillez vous reconnecter.",
-        logoutSuccessAlert: "Déconnexion réussie.",
-        redirectingToSettingsAlert: "Redirection vers les paramètres pour changer le nom d'utilisateur/mot de passe...",
-      },
-      de: {
-        pageTitle: "Willkommen | Chrohail Dashboard",
-        dashboardTitle: "👋 Chrohail Dashboard",
-        logoutButton: "Abmelden",
-        maintenanceAlert: "🚨 Wartungsarbeiten heute Abend um 22 Uhr. Kurze Ausfallzeiten erwartet.",
-        welcomeMessage: "Willkommen zurück, {email}!",
-        supportText: "Für den Kundensupport rufen Sie bitte 1-863-208-0022 an und verwenden Sie die Anruf-PIN: 164 299 627#",
-        filesCardTitle: "📂 Meine Dateien",
-        filesCardDesc: "Zugriff auf hochgeladene Daten und Projekte.",
-        learningCardTitle: "📚 Lernzentrum",
-        learningCardDesc: "Lesen Sie Tutorials und entdecken Sie neue Tools.",
-        analyticsCardTitle: "📊 Analysen",
-        analyticsCardDesc: "Statistiken und Leistungsdiagramme anzeigen.",
-        settingsCardTitle: "⚙️ Einstellungen",
-        settingsCardDesc: "Aktualisieren Sie Ihren Benutzernamen oder Ihr Passwort.",
-        activityLogTitle: "🕓 Letzte Aktivitäten",
-        loggedInActivity: "Im Dashboard angemeldet",
-        viewedLearningHubActivity: "Lernzentrum angesehen",
-        checkedSettingsActivity: "Kontoeinstellungen überprüft",
-        accessedDashboardActivity: "Auf Dashboard zugegriffen um {time}",
-        sessionExpiredAlert: "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
-        logoutSuccessAlert: "Erfolgreich abgemeldet.",
-        redirectingToSettingsAlert: "Weiterleitung zu den Einstellungen, um Benutzername/Passwort zu ändern...",
-      },
-      zh: {
-        pageTitle: "欢迎 | Chrohail 仪表板",
-        dashboardTitle: "👋 Chrohail 仪表板",
-        logoutButton: "退出",
-        maintenanceAlert: "🚨 今晚 10 点维护。预计短暂离线。",
-        welcomeMessage: "欢迎回来，{email}！",
-        supportText: "如需客户支持，请致电 1-863-208-0022 并使用呼叫 PIN：164 299 627#",
-        filesCardTitle: "📂 我的文件",
-        filesCardDesc: "访问上传的数据和项目。",
-        learningCardTitle: "📚 学习中心",
-        learningCardDesc: "阅读教程并探索新工具。",
-        analyticsCardTitle: "📊 分析",
-        analyticsCardDesc: "查看统计数据和性能图表。",
-        settingsCardTitle: "⚙️ 设置",
-        settingsCardDesc: "更新您的用户名或密码。",
-        activityLogTitle: "🕓 最近活动",
-        loggedInActivity: "已登录到仪表板",
-        viewedLearningHubActivity: "已查看学习中心",
-        checkedSettingsActivity: "已检查帐户设置",
-        accessedDashboardActivity: "于 {time} 访问仪表板",
-        sessionExpiredAlert: "会话已过期。请重新登录。",
-        logoutSuccessAlert: "成功退出。",
-        redirectingToSettingsAlert: "正在重定向到设置以更改用户名/密码...",
-      },
-      hi: {
-        pageTitle: "स्वागत है | क्रोहेल डैशबोर्ड",
-        dashboardTitle: "👋 क्रोहेल डैशबोर्ड",
-        logoutButton: "लॉग आउट",
-        maintenanceAlert: "🚨 आज रात 10 बजे रखरखाव। थोड़े समय के लिए सेवा में बाधा आ सकती है।",
-        welcomeMessage: "वापस स्वागत है, {email}!",
-        supportText: "ग्राहक सहायता के लिए, कृपया 1-863-208-0022 पर कॉल करें और कॉल पिन का उपयोग करें: 164 299 627#",
-        filesCardTitle: "📂 मेरी फ़ाइलें",
-        filesCardDesc: "अपलोड किए गए डेटा और परियोजनाओं तक पहुँचें।",
-        learningCardTitle: "📚 शिक्षण हब",
-        learningCardDesc: "ट्यूटोरियल पढ़ें और नए उपकरण खोजें।",
-        analyticsCardTitle: "📊 विश्लेषण",
-        analyticsCardDesc: "आँकड़े और प्रदर्शन चार्ट देखें।",
-        settingsCardTitle: "⚙️ सेटिंग्स",
-        settingsCardDesc: "अपना उपयोगकर्ता नाम या पासवर्ड अपडेट करें।",
-        activityLogTitle: "🕓 हाल की गतिविधि",
-        loggedInActivity: "डैशबोर्ड में लॉग इन किया",
-        viewedLearningHubActivity: "शिक्षण हब देखा",
-        checkedSettingsActivity: "खाता सेटिंग्स जाँचीं",
-        accessedDashboardActivity: "{time} बजे डैशबोर्ड तक पहुँचा गया",
-        sessionExpiredAlert: "सत्र समाप्त हो गया है। कृपया फिर से लॉगिन करें।",
-        logoutSuccessAlert: "सफलतापूर्वक लॉग आउट किया गया।",
-        redirectingToSettingsAlert: "उपयोगकर्ता नाम/पासवर्ड बदलने के लिए सेटिंग्स पर रीडायरेक्ट कर रहा है...",
-      },
-      ru: {
-        pageTitle: "Добро пожаловать | Панель Chrohail",
-        dashboardTitle: "👋 Панель Chrohail",
-        logoutButton: "Выйти",
-        maintenanceAlert: "🚨 Техническое обслуживание сегодня в 22:00. Ожидается кратковременное отключение.",
-        welcomeMessage: "С возвращением, {email}!",
-        supportText: "Для поддержки клиентов звоните по номеру 1-863-208-0022 и используйте PIN-код вызова: 164 299 627#",
-        filesCardTitle: "📂 Мои файлы",
-        filesCardDesc: "Доступ к загруженным данным и проектам.",
-        learningCardTitle: "📚 Учебный центр",
-        learningCardDesc: "Читайте руководства и изучайте новые инструменты.",
-        analyticsCardTitle: "📊 Аналитика",
-        analyticsCardDesc: "Просмотр статистики и графиков производительности.",
-        settingsCardTitle: "⚙️ Настройки",
-        settingsCardDesc: "Обновите свое имя пользователя или пароль.",
-        activityLogTitle: "🕓 Недавняя активность",
-        loggedInActivity: "Вошел в панель управления",
-        viewedLearningHubActivity: "Просмотрен Учебный центр",
-        checkedSettingsActivity: "Проверены настройки учетной записи",
-        accessedDashboardActivity: "Доступ к панели в {time}",
-        sessionExpiredAlert: "Сеанс истек. Пожалуйста, войдите снова.",
-        logoutSuccessAlert: "Выход выполнен успешно.",
-        redirectingToSettingsAlert: "Перенаправление в настройки для смены имени пользователя/пароля...",
-      },
-      ja: {
-        pageTitle: "ようこそ | Chrohail ダッシュボード",
-        dashboardTitle: "👋 Chrohail ダッシュボード",
-        logoutButton: "ログアウト",
-        maintenanceAlert: "🚨 今夜午後10時にメンテナンス。一時的にダウンタイムが発生する可能性があります。",
-        welcomeMessage: "おかえりなさい、{email}様！",
-        supportText: "カスタマーサポートについては、1-863-208-0022 までお電話いただき、通話PIN：164 299 627# をご使用ください。",
-        filesCardTitle: "📂 マイファイル",
-        filesCardDesc: "アップロードされたデータとプロジェクトにアクセスします。",
-        learningCardTitle: "📚 ラーニングハブ",
-        learningCardDesc: "チュートリアルを読んで新しいツールを探しましょう。",
-        analyticsCardTitle: "📊 アナリティクス",
-        analyticsCardDesc: "統計とパフォーマンスチャートを表示します。",
-        settingsCardTitle: "⚙️ 設定",
-        settingsCardDesc: "ユーザー名またはパスワードを更新します。",
-        activityLogTitle: "🕓 最近のアクティビティ",
-        loggedInActivity: "ダッシュボードにログインしました",
-        viewedLearningHubActivity: "ラーニングハブを閲覧しました",
-        checkedSettingsActivity: "アカウント設定を確認しました",
-        accessedDashboardActivity: "{time} にダッシュボードにアクセスしました",
-        sessionExpiredAlert: "セッションの有効期限が切れました。再度ログインしてください。",
-        logoutSuccessAlert: "ログアウトに成功しました。",
-        redirectingToSettingsAlert: "ユーザー名/パスワードを変更するために設定にリダイレクトしています...",
-      }
-    };
-
-    // --- DOM Elements ---
-    const pageTitle = document.getElementById("page-title");
-    const dashboardTitle = document.getElementById("dashboard-title");
-    const languageSelect = document.getElementById("language-select");
-    const logoutButton = document.getElementById("logout-button");
-    const maintenanceAlert = document.getElementById("maintenance-alert");
-    const welcomeMessage = document.getElementById("welcome-message");
-    const userEmailSpan = document.getElementById("userEmail");
-    const supportText = document.getElementById("support-text");
-    const filesCardTitle = document.getElementById("files-card-title");
-    const filesCardDesc = document.getElementById("files-card-desc");
-    const learningCardTitle = document.getElementById("learning-card-title");
-    const learningCardDesc = document.getElementById("learning-card-desc");
-    const analyticsCardTitle = document.getElementById("analytics-card-title");
-    const analyticsCardDesc = document.getElementById("analytics-card-desc");
-    const settingsCardTitle = document.getElementById("settings-card-title");
-    const settingsCardDesc = document.getElementById("settings-card-desc");
-    const activityLogTitle = document.getElementById("activity-log-title");
-    const activityList = document.getElementById("activityList");
-
-    // --- Global Variable for Activity Log (to manage entries across language changes) ---
-    let currentActivities = [];
-
-    // --- Functions ---
-
-    /**
-     * Applies translations to the page elements based on the selected language.
-     * @param {string} lang - The language code (e.g., 'en', 'ur').
-     */
-    function applyTranslations(lang) {
-      const t = translations[lang] || translations.en; // Fallback to English
-
-      document.documentElement.setAttribute("lang", lang); // Set HTML lang attribute
-      document.body.setAttribute("dir", (lang === "ur" || lang === "ar") ? "rtl" : "ltr"); // Set text direction
-
-      pageTitle.textContent = t.pageTitle;
-      dashboardTitle.textContent = t.dashboardTitle;
-      logoutButton.textContent = t.logoutButton;
-      maintenanceAlert.textContent = t.maintenanceAlert;
-      // Re-insert user email correctly after changing message
-      welcomeMessage.innerHTML = t.welcomeMessage.replace("{email}", `<span id="userEmail">${userEmailSpan.textContent}</span>`);
-      supportText.textContent = t.supportText;
-      filesCardTitle.textContent = t.filesCardTitle;
-      filesCardDesc.textContent = t.filesCardDesc;
-      learningCardTitle.textContent = t.learningCardTitle;
-      learningCardDesc.textContent = t.learningCardDesc;
-      analyticsCardTitle.textContent = t.analyticsCardTitle;
-      analyticsCardDesc.textContent = t.analyticsCardDesc;
-      settingsCardTitle.textContent = t.settingsCardTitle;
-      settingsCardDesc.textContent = t.settingsCardDesc;
-      activityLogTitle.textContent = t.activityLogTitle;
-
-      // Re-render activity log with new translations
-      renderActivityLog();
-    }
-
-    /**
-     * Renders the activity log from the currentActivities array.
-     */
-    function renderActivityLog() {
-      activityList.innerHTML = ''; // Clear existing list
-      const currentLang = languageSelect.value;
-      const t = translations[currentLang] || translations.en;
-
-      // Map initial activities to translated strings
-      const translatedInitialActivities = [
-        t.loggedInActivity,
-        t.viewedLearningHubActivity,
-        t.checkedSettingsActivity,
-      ];
-
-      // Combine translated initial activities with any dynamic ones
-      const activitiesToRender = [...translatedInitialActivities, ...currentActivities];
-
-      activitiesToRender.forEach(activity => {
-        const li = document.createElement("li");
-        li.textContent = activity;
-        activityList.appendChild(li);
-      });
-    }
-
-    /**
-     * Adds a new dynamic activity to the log and re-renders it.
-     * @param {string} activityKey - The key from the translations object for the activity.
-     * @param {object} [placeholders={}] - Optional object for placeholders like {time}.
-     */
-    function addDynamicActivity(activityKey, placeholders = {}) {
-        const currentLang = languageSelect.value;
-        const t = translations[currentLang] || translations.en;
-        let activityText = t[activityKey] || activityKey; // Fallback to key if not found
-
-        // Replace placeholders
-        for (const key in placeholders) {
-            activityText = activityText.replace(`{${key}}`, placeholders[key]);
-        }
-
-        currentActivities.push(activityText); // Add to dynamic activities
-        renderActivityLog(); // Re-render the entire log
-    }
-
-
-    // --- Session Handling with Firebase Authentication ---
-    // This listener will fire when the auth state changes (on login, logout, page load)
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // User is signed in.
-            console.log("User logged in:", user.email);
-            userEmailSpan.textContent = user.email; // Display user's email
-            // Add initial activity only if not already added (e.g., first load)
-            if (currentActivities.length === 0 || !currentActivities.some(activity => activity.includes(user.email))) {
-                addDynamicActivity("accessedDashboardActivity", { time: new Date().toLocaleTimeString() });
+    <script>
+        // --- Translations Data ---
+        const translations = {
+            en: {
+                pageTitle: "Welcome | Chrohail Dashboard",
+                dashboardTitle: "👋 Chrohail Dashboard",
+                logoutButton: "Logout",
+                maintenanceAlert: "🚨 Maintenance today at 08 PM. Expect brief downtime.",
+                welcomeMessage: "Welcome back, {email}!",
+                supportText: "For customer support, please call 1-863-208-0022 and use the call PIN: 164 299 627#",
+                filesCardTitle: "📂 My Files",
+                filesCardDesc: "Access uploaded data and projects.",
+                learningCardTitle: "📚 Learning Hub",
+                learningCardDesc: "Read tutorials and explore new tools.",
+                analyticsCardTitle: "📊 Analytics",
+                analyticsCardDesc: "View stats and performance charts.",
+                settingsCardTitle: "⚙️ Settings",
+                settingsCardDesc: "Update your username or password.",
+                activityLogTitle: "🕓 Recent Activity",
+                loggedInActivity: "Logged in to the dashboard",
+                viewedLearningHubActivity: "Viewed Learning Hub",
+                checkedSettingsActivity: "Checked account settings",
+                accessedDashboardActivity: "Accessed dashboard at {time}",
+                sessionExpiredAlert: "Session expired. Please login again.",
+                logoutSuccessAlert: "Logged out successfully.",
+                redirectingToSettingsAlert: "Redirecting to settings to change username/password...",
+            },
+            ur: {
+                pageTitle: "خوش آمدید | چروہیل ڈیش بورڈ",
+                dashboardTitle: "👋 چروہیل ڈیش بورڈ",
+                logoutButton: "لاگ آؤٹ",
+                maintenanceAlert: "🚨 آج رات 10 بجے دیکھ بھال کا کام ہے۔ مختصر وقت کے لیے سروس میں رکاوٹ کی توقع ہے۔",
+                welcomeMessage: "خوش آمدید، {email}!",
+                supportText: "کسٹمر سپورٹ کے لیے، براہ کرم 1-863-208-0022 پر کال کریں اور کال پن استعمال کریں: 164 299 627#",
+                filesCardTitle: "📂 میری فائلز",
+                filesCardDesc: "اپ لوڈ کردہ ڈیٹا اور پروجیکٹس تک رسائی حاصل کریں۔",
+                learningCardTitle: "📚 لرننگ ہب",
+                learningCardDesc: "ٹیوٹوریلز پڑھیں اور نئے ٹولز دریافت کریں۔",
+                analyticsCardTitle: "📊 تجزیات",
+                analyticsCardDesc: "اعداد و شمار اور کارکردگی کے چارٹس دیکھیں۔",
+                settingsCardTitle: "⚙️ ترتیبات",
+                settingsCardDesc: "اپنا صارف نام یا پاس ورڈ اپ ڈیٹ کریں۔",
+                activityLogTitle: "🕓 حالیہ سرگرمی",
+                loggedInActivity: "ڈیش بورڈ میں لاگ ان کیا",
+                viewedLearningHubActivity: "لرننگ ہب دیکھا",
+                checkedSettingsActivity: "اکاؤنٹ کی ترتیبات چیک کیں",
+                accessedDashboardActivity: "ڈیش بورڈ تک رسائی حاصل کی {time} بجے",
+                sessionExpiredAlert: "سیشن ختم ہو گیا ہے۔ براہ کرم دوبارہ لاگ ان کریں۔",
+                logoutSuccessAlert: "کامیابی سے لاگ آؤٹ ہو گئے۔",
+                redirectingToSettingsAlert: "صارف نام/پاس ورڈ تبدیل کرنے کے لیے ترتیبات پر ری ڈائریکٹ کر رہا ہے...",
+            },
+            ar: {
+                pageTitle: "مرحباً | لوحة تحكم الشروهيل",
+                dashboardTitle: "👋 لوحة تحكم الشروهيل",
+                logoutButton: "تسجيل الخروج",
+                maintenanceAlert: "🚨 صيانة الليلة الساعة 10 مساءً. توقع توقفًا مؤقتًا للخدمة.",
+                welcomeMessage: "مرحباً بك، {email}!",
+                supportText: "للدعم الفني، يرجى الاتصال بالرقم 1-863-208-0022 واستخدام رمز الاتصال: 164 299 627#",
+                filesCardTitle: "📂 ملفاتي",
+                filesCardDesc: "الوصول إلى البيانات والمشاريع المحملة.",
+                learningCardTitle: "📚 مركز التعلم",
+                learningCardDesc: "قراءة البرامج التعليمية واستكشاف أدوات جديدة.",
+                analyticsCardTitle: "📊 التحليلات",
+                analyticsCardDesc: "عرض الإحصائيات ورسوم الأداء البيانية.",
+                settingsCardTitle: "⚙️ الإعدادات",
+                settingsCardDesc: "تحديث اسم المستخدم أو كلمة المرور.",
+                activityLogTitle: "🕓 النشاط الأخير",
+                loggedInActivity: "تم تسجيل الدخول إلى لوحة التحكم",
+                viewedLearningHubActivity: "تم عرض مركز التعلم",
+                checkedSettingsActivity: "تم التحقق من إعدادات الحساب",
+                accessedDashboardActivity: "تم الدخول إلى لوحة التحكم في {time}",
+                sessionExpiredAlert: "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+                logoutSuccessAlert: "تم تسجيل الخروج بنجاح.",
+                redirectingToSettingsAlert: "جارٍ إعادة التوجيه إلى الإعدادات لتغيير اسم المستخدم/كلمة المرور...",
+            },
+            es: {
+                pageTitle: "Bienvenido | Panel de Chrohail",
+                dashboardTitle: "👋 Panel de Chrohail",
+                logoutButton: "Cerrar sesión",
+                maintenanceAlert: "🚨 Mantenimiento esta noche a las 10 PM. Espere un breve tiempo de inactividad.",
+                welcomeMessage: "¡Bienvenido de nuevo, {email}!",
+                supportText: "Para soporte al cliente, por favor llame al 1-863-208-0022 y use el PIN de llamada: 164 299 627#",
+                filesCardTitle: "📂 Mis Archivos",
+                filesCardDesc: "Acceda a datos y proyectos subidos.",
+                learningCardTitle: "📚 Centro de Aprendizaje",
+                learningCardDesc: "Lea tutoriales y explore nuevas herramientas.",
+                analyticsCardTitle: "📊 Analíticas",
+                analyticsCardDesc: "Vea estadísticas y gráficos de rendimiento.",
+                settingsCardTitle: "⚙️ Configuración",
+                settingsCardDesc: "Actualice su nombre de usuario o contraseña.",
+                activityLogTitle: "🕓 Actividad Reciente",
+                loggedInActivity: "Sesión iniciada en el panel",
+                viewedLearningHubActivity: "Centro de aprendizaje visto",
+                checkedSettingsActivity: "Configuración de la cuenta revisada",
+                accessedDashboardActivity: "Acceso al panel a las {time}",
+                sessionExpiredAlert: "Sesión caducada. Por favor, inicie sesión de nuevo.",
+                logoutSuccessAlert: "Sesión cerrada con éxito.",
+                redirectingToSettingsAlert: "Redirigiendo a la configuración para cambiar el nombre de usuario/contraseña...",
+            },
+            fr: {
+                pageTitle: "Bienvenue | Tableau de bord Chrohail",
+                dashboardTitle: "👋 Tableau de bord Chrohail",
+                logoutButton: "Déconnexion",
+                maintenanceAlert: "🚨 Maintenance ce soir à 22h. Attendez-vous à une brève interruption de service.",
+                welcomeMessage: "Bienvenue de nouveau, {email} !",
+                supportText: "Pour le support client, veuillez appeler le 1-863-208-0022 et utiliser le code PIN d'appel : 164 299 627#",
+                filesCardTitle: "📂 Mes fichiers",
+                filesCardDesc: "Accédez aux données et projets téléchargés.",
+                learningCardTitle: "📚 Centre d'apprentissage",
+                learningCardDesc: "Lisez des tutoriels et explorez de nouveaux outils.",
+                analyticsCardTitle: "📊 Analyse",
+                analyticsCardDesc: "Consultez les statistiques et les graphiques de performance.",
+                settingsCardTitle: "⚙️ Paramètres",
+                settingsCardDesc: "Mettez à jour votre nom d'utilisateur ou votre mot de passe.",
+                activityLogTitle: "🕓 Activité récente",
+                loggedInActivity: "Connecté au tableau de bord",
+                viewedLearningHubActivity: "Consulté le Centre d'apprentissage",
+                checkedSettingsActivity: "Vérifié les paramètres du compte",
+                accessedDashboardActivity: "Accédé au tableau de bord à {time}",
+                sessionExpiredAlert: "Session expirée. Veuillez vous reconnecter.",
+                logoutSuccessAlert: "Déconnexion réussie.",
+                redirectingToSettingsAlert: "Redirection vers les paramètres pour changer le nom d'utilisateur/mot de passe...",
+            },
+            de: {
+                pageTitle: "Willkommen | Chrohail Dashboard",
+                dashboardTitle: "👋 Chrohail Dashboard",
+                logoutButton: "Abmelden",
+                maintenanceAlert: "🚨 Wartungsarbeiten heute Abend um 22 Uhr. Kurze Ausfallzeiten erwartet.",
+                welcomeMessage: "Willkommen zurück, {email}!",
+                supportText: "Für den Kundensupport rufen Sie bitte 1-863-208-0022 an und verwenden Sie die Anruf-PIN: 164 299 627#",
+                filesCardTitle: "📂 Meine Dateien",
+                filesCardDesc: "Zugriff auf hochgeladene Daten und Projekte.",
+                learningCardTitle: "📚 Lernzentrum",
+                learningCardDesc: "Lesen Sie Tutorials und entdecken Sie neue Tools.",
+                analyticsCardTitle: "📊 Analysen",
+                analyticsCardDesc: "Statistiken und Leistungsdiagramme anzeigen.",
+                settingsCardTitle: "⚙️ Einstellungen",
+                settingsCardDesc: "Aktualisieren Sie Ihren Benutzernamen oder Ihr Passwort.",
+                activityLogTitle: "🕓 Letzte Aktivitäten",
+                loggedInActivity: "Im Dashboard angemeldet",
+                viewedLearningHubActivity: "Lernzentrum angesehen",
+                checkedSettingsActivity: "Kontoeinstellungen überprüft",
+                accessedDashboardActivity: "Auf Dashboard zugegriffen um {time}",
+                sessionExpiredAlert: "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+                logoutSuccessAlert: "Erfolgreich abgemeldet.",
+                redirectingToSettingsAlert: "Weiterleitung zu den Einstellungen, um Benutzername/Passwort zu ändern...",
+            },
+            zh: {
+                pageTitle: "欢迎 | Chrohail 仪表板",
+                dashboardTitle: "👋 Chrohail 仪表板",
+                logoutButton: "退出",
+                maintenanceAlert: "🚨 今晚 10 点维护。预计短暂离线。",
+                welcomeMessage: "欢迎回来，{email}！",
+                supportText: "如需客户支持，请致电 1-863-208-0022 并使用呼叫 PIN：164 299 627#",
+                filesCardTitle: "📂 我的文件",
+                filesCardDesc: "访问上传的数据和项目。",
+                learningCardTitle: "📚 学习中心",
+                learningCardDesc: "阅读教程并探索新工具。",
+                analyticsCardTitle: "📊 分析",
+                analyticsCardDesc: "查看统计数据和性能图表。",
+                settingsCardTitle: "⚙️ 设置",
+                settingsCardDesc: "更新您的用户名或密码。",
+                activityLogTitle: "🕓 最近活动",
+                loggedInActivity: "已登录到仪表板",
+                viewedLearningHubActivity: "已查看学习中心",
+                checkedSettingsActivity: "已检查帐户设置",
+                accessedDashboardActivity: "于 {time} 访问仪表板",
+                sessionExpiredAlert: "会话已过期。请重新登录。",
+                logoutSuccessAlert: "成功退出。",
+                redirectingToSettingsAlert: "正在重定向到设置以更改用户名/密码...",
+            },
+            hi: {
+                pageTitle: "स्वागत है | क्रोहेल डैशबोर्ड",
+                dashboardTitle: "👋 क्रोहेल डैशबोर्ड",
+                logoutButton: "लॉग आउट",
+                maintenanceAlert: "🚨 आज रात 10 बजे रखरखाव। थोड़े समय के लिए सेवा में बाधा आ सकती है।",
+                welcomeMessage: "वापस स्वागत है, {email}!",
+                supportText: "ग्राहक सहायता के लिए, कृपया 1-863-208-0022 पर कॉल करें और कॉल पिन का उपयोग करें: 164 299 627#",
+                filesCardTitle: "📂 मेरी फ़ाइलें",
+                filesCardDesc: "अपलोड किए गए डेटा और परियोजनाओं तक पहुँचें।",
+                learningCardTitle: "📚 शिक्षण हब",
+                learningCardDesc: "ट्यूटोरियल पढ़ें और नए उपकरण खोजें।",
+                analyticsCardTitle: "📊 विश्लेषण",
+                analyticsCardDesc: "आँकड़े और प्रदर्शन चार्ट देखें।",
+                settingsCardTitle: "⚙️ सेटिंग्स",
+                settingsCardDesc: "अपना उपयोगकर्ता नाम या पासवर्ड अपडेट करें।",
+                activityLogTitle: "🕓 हाल की गतिविधि",
+                loggedInActivity: "डैशबोर्ड में लॉग इन किया",
+                viewedLearningHubActivity: "शिक्षण हब देखा",
+                checkedSettingsActivity: "खाता सेटिंग्स जाँचीं",
+                accessedDashboardActivity: "{time} बजे डैशबोर्ड तक पहुँचा गया",
+                sessionExpiredAlert: "सत्र समाप्त हो गया है। कृपया फिर से लॉगिन करें।",
+                logoutSuccessAlert: "सफलतापूर्वक लॉग आउट किया गया।",
+                redirectingToSettingsAlert: "उपयोगकर्ता नाम/पासवर्ड बदलने के लिए सेटिंग्स पर रीडायरेक्ट कर रहा है...",
+            },
+            ru: {
+                pageTitle: "Добро пожаловать | Панель Chrohail",
+                dashboardTitle: "👋 Панель Chrohail",
+                logoutButton: "Выйти",
+                maintenanceAlert: "🚨 Техническое обслуживание сегодня в 22:00. Ожидается кратковременное отключение.",
+                welcomeMessage: "С возвращением, {email}!",
+                supportText: "Для поддержки клиентов звоните по номеру 1-863-208-0022 и используйте PIN-код вызова: 164 299 627#",
+                filesCardTitle: "📂 Мои файлы",
+                filesCardDesc: "Доступ к загруженным данным и проектам.",
+                learningCardTitle: "📚 Учебный центр",
+                learningCardDesc: "Читайте руководства и изучайте новые инструменты.",
+                analyticsCardTitle: "📊 Аналитика",
+                analyticsCardDesc: "Просмотр статистики и графиков производительности.",
+                settingsCardTitle: "⚙️ Настройки",
+                settingsCardDesc: "Обновите свое имя пользователя или пароль.",
+                activityLogTitle: "🕓 Недавняя активность",
+                loggedInActivity: "Вошел в панель управления",
+                viewedLearningHubActivity: "Просмотрен Учебный центр",
+                checkedSettingsActivity: "Проверены настройки учетной записи",
+                accessedDashboardActivity: "Доступ к панели в {time}",
+                sessionExpiredAlert: "Сеанс истек. Пожалуйста, войдите снова.",
+                logoutSuccessAlert: "Выход выполнен успешно.",
+                redirectingToSettingsAlert: "Перенаправление в настройки для смены имени пользователя/пароля...",
+            },
+            ja: {
+                pageTitle: "ようこそ | Chrohail ダッシュボード",
+                dashboardTitle: "👋 Chrohail ダッシュボード",
+                logoutButton: "ログアウト",
+                maintenanceAlert: "🚨 今夜午後10時にメンテナンス。一時的にダウンタイムが発生する可能性があります。",
+                welcomeMessage: "おかえりなさい、{email}様！",
+                supportText: "カスタマーサポートについては、1-863-208-0022 までお電話いただき、通話PIN：164 299 627# をご使用ください。",
+                filesCardTitle: "📂 マイファイル",
+                filesCardDesc: "アップロードされたデータとプロジェクトにアクセスします。",
+                learningCardTitle: "📚 ラーニングハブ",
+                learningCardDesc: "チュートリアルを読んで新しいツールを探しましょう。",
+                analyticsCardTitle: "📊 アナリティクス",
+                analyticsCardDesc: "統計とパフォーマンスチャートを表示します。",
+                settingsCardTitle: "⚙️ 設定",
+                settingsCardDesc: "ユーザー名またはパスワードを更新します。",
+                activityLogTitle: "🕓 最近のアクティビティ",
+                loggedInActivity: "ダッシュボードにログインしました",
+                viewedLearningHubActivity: "ラーニングハブを閲覧しました",
+                checkedSettingsActivity: "アカウント設定を確認しました",
+                accessedDashboardActivity: "{time} にダッシュボードにアクセスしました",
+                sessionExpiredAlert: "セッションの有効期限が切れました。再度ログインしてください。",
+                logoutSuccessAlert: "ログアウトに成功しました。",
+                redirectingToSettingsAlert: "ユーザー名/パスワードを変更するために設定にリダイレクトしています...",
             }
-            // Now apply translations as user is confirmed
-            const savedLang = localStorage.getItem("selectedLanguage") || "en";
-            languageSelect.value = savedLang;
-            applyTranslations(savedLang);
-        } else {
-            // No user is signed in. Redirect to login page.
-            console.log("No user logged in. Redirecting to login.");
-            alert(translations.en.sessionExpiredAlert); // Use English for alert before redirection
-            window.location.href = "User login.html";
+        };
+
+        // --- DOM Elements ---
+        const pageTitle = document.getElementById("page-title");
+        const dashboardTitle = document.getElementById("dashboard-title");
+        const languageSelect = document.getElementById("language-select");
+        const logoutButton = document.getElementById("logout-button");
+        const maintenanceAlert = document.getElementById("maintenance-alert");
+        const welcomeMessage = document.getElementById("welcome-message");
+        const userEmailSpan = document.getElementById("user-email");
+        const supportText = document.getElementById("support-text");
+        const filesCardTitle = document.getElementById("files-card-title");
+        const filesCardDesc = document.getElementById("files-card-desc");
+        const learningCardTitle = document.getElementById("learning-card-title");
+        const learningCardDesc = document.getElementById("learning-card-desc");
+        const analyticsCardTitle = document.getElementById("analytics-card-title");
+        const analyticsCardDesc = document.getElementById("analytics-card-desc");
+        const settingsCardTitle = document.getElementById("settings-card-title");
+        const settingsCardDesc = document.getElementById("settings-card-desc");
+        const settingsCard = document.getElementById("settings-card"); // Get the settings card itself
+        const activityLogTitle = document.getElementById("activity-log-title");
+        const activityList = document.getElementById("activity-list");
+
+        // --- Global Variable for Activity Log (to manage entries across language changes) ---
+        let currentActivities = [];
+
+        // --- Functions ---
+
+        /**
+         * Applies translations to the page elements based on the selected language.
+         * @param {string} lang - The language code (e.g., 'en', 'ur').
+         */
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.en; // Fallback to English
+
+            document.documentElement.setAttribute("lang", lang);
+            document.body.setAttribute("dir", (lang === "ur" || lang === "ar") ? "rtl" : "ltr");
+
+            pageTitle.textContent = t.pageTitle;
+            dashboardTitle.textContent = t.dashboardTitle;
+            logoutButton.textContent = t.logoutButton;
+            maintenanceAlert.textContent = t.maintenanceAlert;
+            welcomeMessage.innerHTML = t.welcomeMessage.replace("{email}", `<span id="user-email">${userEmailSpan.textContent}</span>`);
+            supportText.textContent = t.supportText;
+            filesCardTitle.textContent = t.filesCardTitle;
+            filesCardDesc.textContent = t.filesCardDesc;
+            learningCardTitle.textContent = t.learningCardTitle;
+            learningCardDesc.textContent = t.learningCardDesc;
+            analyticsCardTitle.textContent = t.analyticsCardTitle;
+            analyticsCardDesc.textContent = t.analyticsCardDesc;
+            settingsCardTitle.textContent = t.settingsCardTitle;
+            settingsCardDesc.textContent = t.settingsCardDesc;
+            activityLogTitle.textContent = t.activityLogTitle;
+
+            renderActivityLog(); // Re-render activity log with new translations
         }
-    });
 
-    // --- Event Listeners ---
-    languageSelect.addEventListener("change", (event) => {
-      const selectedLang = event.target.value;
-      localStorage.setItem("selectedLanguage", selectedLang); // Save selected language
-      applyTranslations(selectedLang);
-    });
+        /**
+         * Renders the activity log from the currentActivities array.
+         */
+        function renderActivityLog() {
+            activityList.innerHTML = ''; // Clear existing list
+            const currentLang = languageSelect.value;
+            const t = translations[currentLang] || translations.en;
 
-    async function handleLogout() {
-      try {
-        await auth.signOut(); // Sign out from Firebase
-        alert(translations[languageSelect.value].logoutSuccessAlert);
-        window.location.href = "User login.html"; // Redirect to login page
-      } catch (error) {
-        console.error("Logout Error:", error);
-        alert("Error logging out: " + error.message);
-      }
-    }
+            // Map initial activities to translated strings
+            const translatedInitialActivities = [
+                t.loggedInActivity,
+                t.viewedLearningHubActivity,
+                t.checkedSettingsActivity,
+            ];
 
+            // Combine translated initial activities with any dynamic ones
+            const activitiesToRender = [...translatedInitialActivities, ...currentActivities];
 
-    // --- Initial setup on load ---
-    // The auth.onAuthStateChanged listener handles the initial setup based on user status.
-    // No need for a separate DOMContentLoaded listener to check localStorage for 'user' data,
-    // as Firebase auth state handles it.
-  </script>
+            activitiesToRender.forEach(activity => {
+                const li = document.createElement("li");
+                li.textContent = activity;
+                activityList.appendChild(li);
+            });
+        }
+
+        /**
+         * Adds a new dynamic activity to the log and re-renders it.
+         * @param {string} activityKey - The key from the translations object for the activity.
+         * @param {object} [placeholders={}] - Optional object for placeholders like {time}.
+         */
+        function addDynamicActivity(activityKey, placeholders = {}) {
+            const currentLang = languageSelect.value;
+            const t = translations[currentLang] || translations.en;
+            let activityText = t[activityKey] || activityKey;
+
+            // Replace placeholders
+            for (const key in placeholders) {
+                activityText = activityText.replace(`{${key}}`, placeholders[key]);
+            }
+
+            currentActivities.push(activityText);
+            renderActivityLog();
+        }
+
+        // --- Session Handling (from auth.js concept) ---
+        const LOGIN_PAGE_URL = "User login.html"; // Ensure this matches your login page filename
+
+        function checkSessionAndRedirect() {
+            const userData = JSON.parse(localStorage.getItem("user"));
+            const now = new Date().getTime();
+
+            if (!userData || now > userData.expireTime) {
+                if (userData) { // Only show alert if a user was previously logged in
+                    alert(translations.en.sessionExpiredAlert); // Always use English for initial session alert
+                }
+                window.location.href = LOGIN_PAGE_URL;
+                return false;
+            }
+            return userData;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem("user");
+            const currentLang = languageSelect.value;
+            alert(translations[currentLang].logoutSuccessAlert);
+            window.location.href = LOGIN_PAGE_URL;
+        }
+
+        function goToSettings() {
+            const currentLang = languageSelect.value;
+            alert(translations[currentLang].redirectingToSettingsAlert);
+            window.location.href = "settings.html";
+        }
+
+        // --- Initial setup on load ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = checkSessionAndRedirect(); // Check session first
+            if (user) {
+                userEmailSpan.textContent = user.email;
+                addDynamicActivity("accessedDashboardActivity", { time: new Date().toLocaleTimeString() });
+
+                // Set default language or load from localStorage if previously set
+                const savedLang = localStorage.getItem("selectedLanguage") || "en";
+                languageSelect.value = savedLang;
+                applyTranslations(savedLang); // Apply translations on initial load
+            }
+
+            // Event Listeners
+            languageSelect.addEventListener("change", (event) => {
+                const selectedLang = event.target.value;
+                localStorage.setItem("selectedLanguage", selectedLang); // Save selected language
+                applyTranslations(selectedLang);
+            });
+
+            logoutButton.addEventListener("click", handleLogout);
+            settingsCard.addEventListener("click", goToSettings); // Attach to the card directly
+        });
+    </script>
 
 </body>
 </html>
