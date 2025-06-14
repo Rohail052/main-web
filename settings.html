@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title id="page-title">Settings | Chrohail Dashboard</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js" defer></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to right, #000000, #1a1a1a);
+            color: #e0f7fa;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures content fills the viewport height */
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #00fff7;
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        header h1 {
+            color: #00fff7;
+            text-shadow: 0 0 5px #00fff7;
+            font-size: 1.5rem;
+        }
+
+        header button {
+            background: transparent;
+            border: 2px solid #00fff7;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #00fff7;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        header button:hover {
+            background-color: #00fff7;
+            color: #000;
+        }
+
+        .container {
+            padding: 2rem;
+            flex-grow: 1; /* Allows container to take up available space */
+            max-width: 800px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 247, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 247, 0.1);
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0, 255, 247, 0.05);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section h2 {
+            color: #00fff7;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-shadow: 0 0 3px #00fff7;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d0ffff;
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #00fff7;
+            border-radius: 5px;
+            background-color: rgba(0, 255, 247, 0.05);
+            color: #e0f7fa;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #00ffff; /* Brighter cyan on focus */
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+
+        .action-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-buttons button {
+            background: #00fff7;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .action-buttons button:hover {
+            background-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        #errorMessage, #successMessage {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+
+        #errorMessage {
+            background-color: #ff1744;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 23, 68, 0.4);
+        }
+
+        #successMessage {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+        }
+
+        #spinner {
+            border: 4px solid rgba(0, 255, 247, 0.3);
+            border-top: 4px solid #00fff7;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+            margin: 1.5rem auto 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .navigation-buttons button {
+            background: transparent;
+            border: 2px solid #00fff7;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #00fff7;
+            cursor: pointer;
+            transition: 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #00fff7;
+            color: #000;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+            header button {
+                padding: 6px 12px;
+            }
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            .section h2 {
+                font-size: 1.5rem;
+            }
+            .action-buttons, .navigation-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="dashboard-title">⚙️ Chrohail Settings</h1>
+        <div>
+            <button onclick="handleLogout()" id="logout-button">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="errorMessage" class="alert-message"></div>
+        <div id="successMessage" class="alert-message"></div>
+        <div id="spinner"></div>
+
+        <div class="section">
+            <h2 id="profile-settings-title">Profile Settings</h2>
+            <div class="form-group">
+                <label for="currentEmail" id="current-email-label">Current Email:</label>
+                <input type="email" id="currentEmail" value="user@example.com" readonly>
+            </div>
+            <div class="form-group">
+                <label for="displayNameInput" id="display-name-label">Display Name (Optional):</label>
+                <input type="text" id="displayNameInput" placeholder="Enter your display name">
+            </div>
+            <div class="action-buttons">
+                <button id="updateDisplayNameBtn">Update Display Name</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 id="email-update-title">Change Email</h2>
+            <p id="email-reauth-note">Note: Changing email requires recent login. You may be prompted to re-authenticate.</p>
+            <div class="form-group">
+                <label for="newEmailInput" id="new-email-label">New Email:</label>
+                <input type="email" id="newEmailInput" placeholder="Enter new email">
+            </div>
+            <div class="action-buttons">
+                <button id="updateEmailBtn">Update Email</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 id="password-update-title">Change Password</h2>
+            <p id="password-reauth-note">Note: Changing password requires recent login. You may be prompted to re-authenticate.</p>
+            <div class="form-group">
+                <label for="newPasswordInput" id="new-password-label">New Password (min 6 characters):</label>
+                <input type="password" id="newPasswordInput" placeholder="Enter new password">
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPasswordInput" id="confirm-password-label">Confirm New Password:</label>
+                <input type="password" id="confirmNewPasswordInput" placeholder="Confirm new password">
+            </div>
+            <div class="action-buttons">
+                <button id="updatePasswordBtn">Update Password</button>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button onclick="goToDashboard()" id="back-to-dashboard-btn">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration - IMPORTANT: Use the exact same config as in auth.js and After.html
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgz4GkCfMNzn7_nV4P7yry-MilTDDNbbI",
+            authDomain: "login-d7f88.firebaseapp.com",
+            projectId: "login-d7f88",
+            storageBucket: "login-d7f88.appspot.com",
+            messagingSenderId: "179833264327",
+            appId: "1:179833264327:web:f405fc98edf2c2fe4f06e2",
+            measurementId: "G-EL3NPFDQFL"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        let currentUser = null; // To store the current user object
+
+        // --- Translations Data (Simplified for English only for now) ---
+        const translations = {
+            en: {
+                pageTitle: "Settings | Chrohail Dashboard",
+                dashboardTitle: "⚙️ Chrohail Settings",
+                logoutButton: "Logout",
+                profileSettingsTitle: "Profile Settings",
+                currentEmailLabel: "Current Email:",
+                displayNameLabel: "Display Name (Optional):",
+                updateDisplayNameBtn: "Update Display Name",
+                emailUpdateTitle: "Change Email",
+                emailReauthNote: "Note: Changing email requires recent login. You may be prompted to re-authenticate.",
+                newEmailLabel: "New Email:",
+                updateEmailBtn: "Update Email",
+                passwordUpdateTitle: "Change Password",
+                passwordReauthNote: "Note: Changing password requires recent login. You may be prompted to re-authenticate.",
+                newPasswordLabel: "New Password (min 6 characters):",
+                confirmPasswordLabel: "Confirm New Password:",
+                updatePasswordBtn: "Update Password",
+                backToDashboardBtn: "Back to Dashboard",
+                sessionExpiredAlert: "Session expired. Please login again.",
+                logoutSuccessAlert: "Logged out successfully.",
+                emailUpdatedSuccess: "Email updated successfully!",
+                passwordUpdatedSuccess: "Password updated successfully!",
+                displayNameUpdatedSuccess: "Display name updated successfully!",
+                errorPasswordMismatch: "New password and confirmation do not match.",
+                errorPasswordLength: "Password must be at least 6 characters long.",
+                reauthenticatePrompt: "Please re-enter your current password to continue:",
+                reauthenticationFailed: "Re-authentication failed. Please try again.",
+                operationFailed: "Operation failed: ",
+                // General error messages (Firebase will provide more specific ones)
+                authError: "Authentication Error:",
+                networkError: "Network error. Please check your internet connection."
+            }
+            // Add other languages here (ur, ar, es, fr, de, zh, hi, ru, ja) if needed
+        };
+        const currentLang = 'en'; // For now, only English is implemented for settings
+        const t = translations[currentLang]; // Get current language translations
+
+        // --- DOM Elements ---
+        const pageTitleElem = document.getElementById("page-title");
+        const dashboardTitleElem = document.getElementById("dashboard-title");
+        const logoutButton = document.getElementById("logout-button");
+        const errorMessageDiv = document.getElementById('errorMessage');
+        const successMessageDiv = document.getElementById('successMessage');
+        const spinner = document.getElementById('spinner');
+
+        const currentEmailInput = document.getElementById('currentEmail');
+        const displayNameInput = document.getElementById('displayNameInput');
+        const updateDisplayNameBtn = document.getElementById('updateDisplayNameBtn');
+
+        const newEmailInput = document.getElementById('newEmailInput');
+        const updateEmailBtn = document.getElementById('updateEmailBtn');
+
+        const newPasswordInput = document.getElementById('newPasswordInput');
+        const confirmNewPasswordInput = document.getElementById('confirmNewPasswordInput');
+        const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+
+        const profileSettingsTitle = document.getElementById('profile-settings-title');
+        const currentEmailLabel = document.getElementById('current-email-label');
+        const displayNameLabel = document.getElementById('display-name-label');
+        const emailUpdateTitle = document.getElementById('email-update-title');
+        const emailReauthNote = document.getElementById('email-reauth-note');
+        const newEmailLabel = document.getElementById('new-email-label');
+        const passwordUpdateTitle = document.getElementById('password-update-title');
+        const passwordReauthNote = document.getElementById('password-reauth-note');
+        const newPasswordLabel = document.getElementById('new-password-label');
+        const confirmPasswordLabel = document.getElementById('confirm-password-label');
+        const backToDashboardBtn = document.getElementById('back-to-dashboard-btn');
+
+
+        // --- UI Helper Functions ---
+        function showSpinner() {
+            spinner.style.display = 'block';
+            hideMessages();
+        }
+
+        function hideSpinner() {
+            spinner.style.display = 'none';
+        }
+
+        function showErrorMessage(message) {
+            errorMessageDiv.textContent = message;
+            errorMessageDiv.style.display = 'block';
+            successMessageDiv.style.display = 'none';
+        }
+
+        function showSuccessMessage(message) {
+            successMessageDiv.textContent = message;
+            successMessageDiv.style.display = 'block';
+            errorMessageDiv.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorMessageDiv.style.display = 'none';
+            successMessageDiv.style.display = 'none';
+            errorMessageDiv.textContent = '';
+            successMessageDiv.textContent = '';
+        }
+
+        function applyTranslations() {
+            pageTitleElem.textContent = t.pageTitle;
+            dashboardTitleElem.textContent = t.dashboardTitle;
+            logoutButton.textContent = t.logoutButton;
+            profileSettingsTitle.textContent = t.profileSettingsTitle;
+            currentEmailLabel.textContent = t.currentEmailLabel;
+            displayNameLabel.textContent = t.displayNameLabel;
+            updateDisplayNameBtn.textContent = t.updateDisplayNameBtn;
+            emailUpdateTitle.textContent = t.emailUpdateTitle;
+            emailReauthNote.textContent = t.emailReauthNote;
+            newEmailLabel.textContent = t.newEmailLabel;
+            updateEmailBtn.textContent = t.updateEmailBtn;
+            passwordUpdateTitle.textContent = t.passwordUpdateTitle;
+            passwordReauthNote.textContent = t.passwordReauthNote;
+            newPasswordLabel.textContent = t.newPasswordLabel;
+            confirmPasswordLabel.textContent = t.confirmPasswordLabel;
+            updatePasswordBtn.textContent = t.updatePasswordBtn;
+            backToDashboardBtn.textContent = t.backToDashboardBtn;
+        }
+
+        // --- Firebase Session Handling ---
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user; // Store the user object
+                currentEmailInput.value = user.email || 'N/A'; // Display current email
+                displayNameInput.value = user.displayName || ''; // Display current display name
+                console.log("User is logged in:", user.email);
+                applyTranslations(); // Apply translations once user is loaded
+            } else {
+                console.log("No user logged in. Redirecting to login.");
+                alert(t.sessionExpiredAlert);
+                window.location.href = "User login.html";
+            }
+        });
+
+        // --- User Actions ---
+
+        async function reauthenticateUser() {
+            const password = prompt(t.reauthenticatePrompt);
+            if (!password) {
+                return null; // User cancelled
+            }
+            const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, password);
+            try {
+                await currentUser.reauthenticateWithCredential(credential);
+                return true; // Re-authentication successful
+            } catch (error) {
+                console.error("Re-authentication error:", error);
+                showErrorMessage(t.reauthenticationFailed + error.message);
+                return false; // Re-authentication failed
+            }
+        }
+
+
+        // Update Display Name
+        updateDisplayNameBtn.addEventListener('click', async () => {
+            if (!currentUser) return;
+
+            showSpinner();
+            hideMessages();
+
+            const newDisplayName = displayNameInput.value.trim();
+
+            try {
+                await currentUser.updateProfile({ displayName: newDisplayName });
+                showSuccessMessage(t.displayNameUpdatedSuccess);
+            } catch (error) {
+                console.error("Error updating display name:", error);
+                showErrorMessage(t.operationFailed + error.message);
+            } finally {
+                hideSpinner();
+            }
+        });
+
+
+        // Update Email
+        updateEmailBtn.addEventListener('click', async () => {
+            if (!currentUser) return;
+
+            showSpinner();
+            hideMessages();
+
+            const newEmail = newEmailInput.value.trim();
+            if (!newEmail) {
+                showErrorMessage("Please enter a new email address.");
+                hideSpinner();
+                return;
+            }
+            if (newEmail === currentUser.email) {
+                showErrorMessage("New email cannot be the same as the current email.");
+                hideSpinner();
+                return;
+            }
+
+            try {
+                // Re-authenticate if user's last sign-in was too long ago
+                await currentUser.updateEmail(newEmail);
+                showSuccessMessage(t.emailUpdatedSuccess);
+                currentEmailInput.value = newEmail; // Update displayed email
+                newEmailInput.value = ''; // Clear input
+            } catch (error) {
+                console.error("Error updating email:", error);
+                if (error.code === 'auth/requires-recent-login') {
+                    showErrorMessage("This operation requires recent authentication. Please re-authenticate.");
+                    const reauthenticated = await reauthenticateUser();
+                    if (reauthenticated) {
+                        try {
+                            await currentUser.updateEmail(newEmail);
+                            showSuccessMessage(t.emailUpdatedSuccess);
+                            currentEmailInput.value = newEmail;
+                            newEmailInput.value = '';
+                        } catch (reauthError) {
+                            console.error("Error updating email after re-authentication:", reauthError);
+                            showErrorMessage(t.operationFailed + reauthError.message);
+                        }
+                    }
+                } else {
+                    showErrorMessage(t.operationFailed + error.message);
+                }
+            } finally {
+                hideSpinner();
+            }
+        });
+
+        // Update Password
+        updatePasswordBtn.addEventListener('click', async () => {
+            if (!currentUser) return;
+
+            showSpinner();
+            hideMessages();
+
+            const newPassword = newPasswordInput.value;
+            const confirmNewPassword = confirmNewPasswordInput.value;
+
+            if (newPassword !== confirmNewPassword) {
+                showErrorMessage(t.errorPasswordMismatch);
+                hideSpinner();
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showErrorMessage(t.errorPasswordLength);
+                hideSpinner();
+                return;
+            }
+
+            try {
+                // Re-authenticate if user's last sign-in was too long ago
+                await currentUser.updatePassword(newPassword);
+                showSuccessMessage(t.passwordUpdatedSuccess);
+                newPasswordInput.value = ''; // Clear inputs
+                confirmNewPasswordInput.value = '';
+            } catch (error) {
+                console.error("Error updating password:", error);
+                if (error.code === 'auth/requires-recent-login') {
+                    showErrorMessage("This operation requires recent authentication. Please re-authenticate.");
+                    const reauthenticated = await reauthenticateUser();
+                    if (reauthenticated) {
+                        try {
+                            await currentUser.updatePassword(newPassword);
+                            showSuccessMessage(t.passwordUpdatedSuccess);
+                            newPasswordInput.value = '';
+                            confirmNewPasswordInput.value = '';
+                        } catch (reauthError) {
+                            console.error("Error updating password after re-authentication:", reauthError);
+                            showErrorMessage(t.operationFailed + reauthError.message);
+                        }
+                    }
+                } else {
+                    showErrorMessage(t.operationFailed + error.message);
+                }
+            } finally {
+                hideSpinner();
+            }
+        });
+
+
+        // Logout Function
+        async function handleLogout() {
+            try {
+                await auth.signOut(); // Sign out from Firebase
+                alert(t.logoutSuccessAlert);
+                window.location.href = "User login.html"; // Redirect to login page
+            } catch (error) {
+                console.error("Logout Error:", error);
+                alert("Error logging out: " + error.message);
+            }
+        }
+
+        // Back to Dashboard Function
+        function goToDashboard() {
+            window.location.href = "After.html";
+        }
+
+        // Initial apply translations on DOMContentLoaded (before Firebase might load)
+        document.addEventListener('DOMContentLoaded', applyTranslations);
+    </script>
+</body>
+</html>
