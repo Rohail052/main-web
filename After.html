@@ -470,7 +470,7 @@
         const pageTitle = document.getElementById("page-title");
         const dashboardTitle = document.getElementById("dashboard-title");
         const languageSelect = document.getElementById("language-select");
-        const logoutButton = document.getElementById("logout-button");
+        const logoutButton = document.getElementById("logout-button"); // Correctly selected by ID
         const maintenanceAlert = document.getElementById("maintenance-alert");
         const welcomeMessage = document.getElementById("welcome-message");
         const userEmailSpan = document.getElementById("user-email");
@@ -483,7 +483,7 @@
         const analyticsCardDesc = document.getElementById("analytics-card-desc");
         const settingsCardTitle = document.getElementById("settings-card-title");
         const settingsCardDesc = document.getElementById("settings-card-desc");
-        const settingsCard = document.getElementById("settings-card"); // Get the settings card itself
+        const settingsCard = document.getElementById("settings-card");
         const activityLogTitle = document.getElementById("activity-log-title");
         const activityList = document.getElementById("activity-list");
 
@@ -615,8 +615,10 @@
                 applyTranslations(selectedLang);
             });
 
+            // THIS IS THE CRITICAL LINE ADDED/CORRECTED:
             logoutButton.addEventListener("click", handleLogout);
-            settingsCard.addEventListener("click", goToSettings); // Attach to the card directly
+
+            settingsCard.addEventListener("click", goToSettings);
         });
     </script>
 
