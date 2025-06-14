@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login</title>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js" defer></script>
 
@@ -144,6 +143,12 @@
       color: cyan;
       font-weight: 600;
     }
+    #errorMessage {
+      color: #ff4d4d; /* Red color for errors */
+      margin-top: 10px;
+      font-size: 14px;
+      display: none; /* Hidden by default */
+    }
     @media(max-width:400px) {
       .login-box {
         width: 90vw;
@@ -175,7 +180,7 @@
         <label style="color:cyan; user-select:none">
           <input type="checkbox" id="rememberMe" style="margin-right:6px" /> Remember me
         </label>
-        <a href="#" onclick="resetPassword()">Forgot Password?</a>
+        <a href="#" id="forgotPasswordLink">Forgot Password?</a>
       </div>
 
       <button type="submit">Login</button>
@@ -196,10 +201,11 @@
       </div>
 
       <div class="links">
-        <p>Don't have an account? <a href="#" onclick="registerUser()">Register</a></p>
+        <p>Don't have an account? <a href="#" id="registerLink">Register</a></p>
       </div>
 
       <div id="spinner">Loading...</div>
+      <div id="errorMessage"></div>
     </form>
   </div>
 
