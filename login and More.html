@@ -7,17 +7,45 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://embed.acuityscheduling.com/embed/button/35648904.css" id="acuity-button-styles" />
   <script src="https://embed.acuityscheduling.com/embed/button/35648904.js" async></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
+    /* Loader Styles */
+    #loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     body {
       font-family: 'Arial', sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-color: #f0f0f0;
       margin: 0;
-      position: relative;
+      padding: 20px;
     }
 
     h1 {
@@ -33,19 +61,25 @@
       gap: 20px;
       justify-content: center;
     }
+
     .beautiful-btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       padding: 1.2em 2.5em;
       text-decoration: none;
       color: white;
       font-size: 1.2em;
       border-radius: 50px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
       transition: all 0.4s ease;
       text-align: center;
-      min-width: 150px;
+      min-width: 220px;
+      justify-content: center;
+    }
+
+    .beautiful-btn i {
+      font-size: 1.2em;
     }
 
     .beautiful-btn:hover {
@@ -72,61 +106,24 @@
       background-color: #666;
     }
 
-    .btn-1 {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-    }
+    /* Button Gradients */
+    .btn-1 { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+    .btn-2 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+    .btn-3 { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
+    .btn-4 { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .btn-5 { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
+    .btn-6 { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+    .btn-7 { background: linear-gradient(135deg, #f8b400, #f85c00); }
+    .btn-8 { background: linear-gradient(135deg, #00c6ff, #0072ff); }
 
-    .btn-1:hover {
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
-    }
-
-    .btn-2 {
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-    }
-
-    .btn-2:hover {
-      background: linear-gradient(135deg, #ff4b2b, #ff416c);
-    }
-
-    .btn-3 {
-      background: linear-gradient(135deg, #36d1dc, #5b86e5);
-    }
-
-    .btn-3:hover {
-      background: linear-gradient(135deg, #5b86e5, #36d1dc);
-    }
-
-    .btn-4 {
-      background: linear-gradient(135deg, #11998e, #38ef7d);
-    }
-
-    .btn-4:hover {
-      background: linear-gradient(135deg, #38ef7d, #11998e);
-    }
-
-    .btn-5 {
-      background: linear-gradient(135deg, #8e2de2, #4a00e0);
-    }
-
-    .btn-5:hover {
-      background: linear-gradient(135deg, #4a00e0, #8e2de2);
-    }
-
-    .btn-6 {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    }
-
-    .btn-6:hover {
-      background: linear-gradient(135deg, #feb47b, #ff7e5f);
-    }
-
-    .btn-7 {
-      background: linear-gradient(135deg, #f8b400, #f85c00);
-    }
-
-    .btn-7:hover {
-      background: linear-gradient(135deg, #f85c00, #f8b400);
-    }
+    .btn-1:hover { background: linear-gradient(135deg, #2575fc, #6a11cb); }
+    .btn-2:hover { background: linear-gradient(135deg, #ff4b2b, #ff416c); }
+    .btn-3:hover { background: linear-gradient(135deg, #5b86e5, #36d1dc); }
+    .btn-4:hover { background: linear-gradient(135deg, #38ef7d, #11998e); }
+    .btn-5:hover { background: linear-gradient(135deg, #4a00e0, #8e2de2); }
+    .btn-6:hover { background: linear-gradient(135deg, #feb47b, #ff7e5f); }
+    .btn-7:hover { background: linear-gradient(135deg, #f85c00, #f8b400); }
+    .btn-8:hover { background: linear-gradient(135deg, #0072ff, #00c6ff); }
 
     /* Responsive Styles */
     @media (max-width: 768px) {
@@ -165,8 +162,20 @@
       }
     }
   </style>
+
+  <script>
+    // Loader behavior
+    window.addEventListener("load", function () {
+      document.getElementById("loader").style.display = "none";
+    });
+  </script>
 </head>
 <body>
+
+  <!-- Page Loader -->
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
 
   <!-- Top-right Home button -->
   <div class="top-right">
@@ -176,19 +185,39 @@
   <h1>Login and More</h1>
 
   <div class="button-container">
-    <!-- Replaced Schedule Meeting with Acuity button -->
     <a href="https://app.acuityscheduling.com/schedule.php?owner=35648904&ref=booking_button"
        target="_blank"
        class="acuity-embed-button beautiful-btn btn-1">
-       Schedule Appointment
+       <i class="fas fa-calendar-check"></i> Schedule Appointment
     </a>
 
-    <a target="_blank" href="Newlogin.html" class="beautiful-btn btn-2">Login / Sign Up</a>
-    <a target="_blank" href="https://ch-learned.netlify.app/" class="beautiful-btn btn-3">Learning Web</a>
-    <a target="_blank" href="https://student-ch.netlify.app/" class="beautiful-btn btn-4">Student Login</a>
-    <a href="404.html" class="beautiful-btn btn-5">Mosque Web</a>
-    <a href="404.html"  class="beautiful-btn btn-6">Car Web</a>
-    <a href="404.html" class="beautiful-btn btn-7">School Web</a>
+    <a target="_blank" href="Newlogin.html" class="beautiful-btn btn-2">
+      <i class="fas fa-user-lock"></i> Login / Sign Up
+    </a>
+
+    <a target="_blank" href="https://ch-learned.netlify.app/" class="beautiful-btn btn-3">
+      <i class="fas fa-graduation-cap"></i> Learning Web
+    </a>
+
+    <a target="_blank" href="https://student-ch.netlify.app/" class="beautiful-btn btn-4">
+      <i class="fas fa-user-graduate"></i> Student Login
+    </a>
+
+    <a href="404.html" class="beautiful-btn btn-5">
+      <i class="fas fa-mosque"></i> Mosque Web
+    </a>
+
+    <a href="404.html" class="beautiful-btn btn-6">
+      <i class="fas fa-car"></i> Car Web
+    </a>
+
+    <a href="404.html" class="beautiful-btn btn-7">
+      <i class="fas fa-school"></i> School Web
+    </a>
+
+    <a href="Quote.html" class="beautiful-btn btn-8">
+      <i class="fas fa-file-invoice-dollar"></i> Quote Generator
+    </a>
   </div>
 
 </body>
