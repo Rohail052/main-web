@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quote Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      animation: slideIn 0.7s ease forwards;
+    }
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.9rem;
+      color: #00f7ff;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+    }
+    input[type="number"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+    input::placeholder {
+      color: #ccc;
+    }
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      margin-right: 10px;
+    }
+    .checkbox-group {
+      margin-top: 10px;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      background: #00f7ff;
+      color: #000;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #00e3ea;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    th {
+      background: rgba(0, 247, 255, 0.15);
+      color: #00f7ff;
+    }
+    .total {
+      text-align: right;
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .email-btn {
+      background: #ffffff;
+      color: #000;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+    .email-btn:hover {
+      background: #f0f0f0;
+    }
+    @media(max-width: 480px) {
+      .container {
+        padding: 25px 20px;
+      }
+      th, td {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Project Quote Generator</h2>
+
+    <label for="pages">Number of Pages:</label>
+    <input id="pages" type="number" min="1" placeholder="Enter number of pages" />
+
+    <label>Technologies:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="HTML" /> HTML</label>
+      <label><input type="checkbox" value="CSS" /> CSS</label>
+      <label><input type="checkbox" value="JavaScript" /> JavaScript</label>
+      <label><input type="checkbox" value="Python" /> Python</label>
+    </div>
+
+    <label for="userEmail">Your Email (optional):</label>
+    <input id="userEmail" type="email" placeholder="you@example.com" />
+
+    <button onclick="generateQuote()">Generate Quote</button>
+    <div id="quoteBreakdown"></div>
+  </div>
+
+  <script>
+    const prices = {
+      base: 100,
+      HTML: 50,
+      CSS: 70,
+      JavaScript: 100,
+      Python: 150
+    };
+
+    let lastQuoteText = '';
+
+    function generateQuote() {
+      const pages = parseInt(document.getElementById('pages').value);
+      const langs = [...document.querySelectorAll('input[type=checkbox]:checked')].map(cb => cb.value);
+
+      if (!pages || pages < 1) {
+        document.getElementById('quoteBreakdown').innerHTML = '<p style="color: salmon;">Please enter a valid number of pages.</p>';
+        return;
+      }
+
+      let total = prices.base * pages;
+      let rows = `<table>
+        <tr><th>Item</th><th>Rate</th><th>Pages</th><th>Total</th></tr>
+        <tr><td>Base Work</td><td>$${prices.base}</td><td>${pages}</td><td>$${(prices.base * pages).toFixed(2)}</td></tr>`;
+
+      langs.forEach(lang => {
+        const rate = prices[lang];
+        const subtotal = rate * pages;
+        total += subtotal;
+        rows += `<tr><td>${lang}</td><td>$${rate}</td><td>${pages}</td><td>$${subtotal.toFixed(2)}</td></tr>`;
+      });
+
+      rows += `</table><div class="total">Total Quote: $${total.toFixed(2)}</div>`;
+      rows += `<button class="email-btn" onclick="emailQuote()">📧 Email this quote</button>`;
+
+      // Store for email
+      let quoteText = `Quote for ${pages} page(s):\n`;
+      quoteText += `Base Work: $${prices.base} x ${pages} = $${(prices.base * pages).toFixed(2)}\n`;
+      langs.forEach(lang => {
+        quoteText += `${lang}: $${prices[lang]} x ${pages} = $${(prices[lang] * pages).toFixed(2)}\n`;
+      });
+      quoteText += `Total: $${total.toFixed(2)}`;
+      lastQuoteText = encodeURIComponent(quoteText);
+
+      document.getElementById('quoteBreakdown').innerHTML = rows;
+    }
+
+    function emailQuote() {
+      const userEmail = document.getElementById('userEmail').value.trim();
+      const subject = encodeURIComponent('Your Project Quote');
+      const body = lastQuoteText + encodeURIComponent('\n\nLet me know if you would like to proceed.');
+      const recipient = 'rohailch2023@outlook.com';
+
+      let mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
+      if (userEmail) {
+        mailtoLink += `&cc=${encodeURIComponent(userEmail)}`;
+      }
+
+      window.location.href = mailtoLink;
+    }
+  </script>
+</body>
+</html>
