@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Projects - Work Area</title>
+  <link rel="stylesheet" href="admin.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background: #2a2a2a;
+    }
+
+    .card a {
+      color: #00c3ff;
+      font-weight: bold;
+      text-decoration: none;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    .logout-btn {
+      margin-top: 2rem;
+      background: #ff4d4d;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background: #e63946;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Projects</h1>
+
+  <div class="project-grid">
+    <div class="card">
+      <h3>CH Calculator</h3>
+      <a href="https://chcalculator.netlify.app" target="_blank">Visit</a>
+    </div>
+    <div class="card">
+      <h3>CH QR Code Generator</h3>
+      <a href="https://ch-qrcode.netlify.app" target="_blank">Visit</a>
+    </div>
+    <div class="card">
+      <h3>CH Translator</h3>
+      <a href="https://translator-ch.netlify.app" target="_blank">Visit</a>
+    </div>
+    <div class="card">
+      <h3>CH Weatherify</h3>
+      <a href="https://ch-weatherify.netlify.app" target="_blank">Visit</a>
+    </div>
+    <div class="card">
+      <h3>CH Music Player</h3>
+      <a href="https://music-ch.netlify.app" target="_blank">Visit</a>
+    </div>
+  </div>
+
+  <button class="logout-btn" onclick="handleLogout()">Logout</button>
+
+  <script src="admin.js"></script>
+</body>
+</html>
