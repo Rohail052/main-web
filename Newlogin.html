@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login page with 2FA & More</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+  body {
+    background: linear-gradient(135deg, #141e30, #243b55);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+  .auth-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 30px 20px 40px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 400px;
+    animation: fadeIn 1s ease-in-out;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+  }
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+    user-select: none;
+  }
+  .tab.active {
+    color: #00f7ff;
+    border-color: #00f7ff;
+  }
+  form {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+  form.active, form[style*="display: flex"] {
+    display: flex;
+  }
+  .input-group {
+    position: relative;
+  }
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  input[type="tel"] {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+  }
+  input::placeholder {
+    color: #ccc;
+  }
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #00f7ff;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+  button {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #00f7ff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:hover:not(:disabled) {
+    background: #01d2dd;
+  }
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .google-btn {
+    background: #fff;
+    color: #333;
+  }
+  .link-btn {
+    background: none;
+    color: #00f7ff;
+    text-decoration: underline;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    align-self: flex-start;
+  }
+  .message {
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 20px;
+  }
+  #spinnerOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid #00f7ff;
+    border-top: 6px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<div id="spinnerOverlay"><div class="spinner"></div></div>
+
+<div class="auth-box">
+  <div class="tabs">
+    <div class="tab active" id="loginTab">Login</div>
+    <div class="tab" id="signupTab">Signup</div>
+    <div class="tab" id="magicTab">Magic Link</div>
+  </div>
+
+  <!-- LOGIN FORM -->
+  <form id="loginForm" class="active">
+    <input type="email" id="loginEmail" placeholder="Email" required autocomplete="username" />
+    <div class="input-group">
+      <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password" />
+      <span class="toggle-password" data-target="loginPassword" title="Show/Hide Password">&#128065;</span>
+    </div>
+    <div class="remember-me">
+      <input type="checkbox" id="rememberMe" />
+      <label for="rememberMe">Remember Me</label>
+    </div>
+    <button type="submit" id="loginSubmitBtn">Login</button>
+    <button type="button" class="link-btn" id="resetPassword">Forgot Password?</button>
+    <button type="button" class="google-btn" id="googleLogin">Continue with Google</button>
+    <div class="message" id="loginMessage"></div>
+  </form>
+
+  <!-- 2FA FORM (Initially hidden) -->
+  <form id="twoFactorForm" style="display:none; flex-direction: column; gap: 10px;">
+    <input type="tel" id="phoneNumber" placeholder="+1 234 567 8900" required />
+    <button type="button" id="sendCodeBtn">Send Code</button>
+    <input type="text" id="verificationCode" placeholder="Enter verification code" style="display:none;" />
+    <button type="submit" id="verifyCodeBtn" style="display:none;">Verify Code</button>
+    <div class="message" id="twoFactorMessage"></div>
+  </form>
+
+  <!-- SIGNUP FORM -->
+  <form id="signupForm">
+    <input type="email" id="signupEmail" placeholder="Email" required autocomplete="username" />
+    <div class="input-group">
+      <input type="password" id="signupPassword" placeholder="Password" required autocomplete="new-password" />
+      <span class="toggle-password" data-target="signupPassword" title="Show/Hide Password">&#128065;</span>
+    </div>
+    <button type="submit">Signup</button>
+    <button type="button" class="google-btn" id="googleSignup">Continue with Google</button>
+    <div class="message" id="signupMessage"></div>
+  </form>
+
+  <!-- MAGIC LINK FORM -->
+  <form id="magicForm">
+    <input type="email" id="magicEmail" placeholder="Email" required autocomplete="username" />
+    <button type="submit">Send Magic Link</button>
+    <div class="message" id="magicMessage"></div>
+  </form>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
