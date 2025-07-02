@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking | Chrohail</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+ 
+
+    /* Section and Form Styles */
+    .section {
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      background: black;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 6rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    form input, form textarea {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #ffb22f, #ff5e62);
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    form input:focus, form textarea:focus {
+      background: linear-gradient(145deg, #ff5e62, #ffb22f);
+      outline: none;
+      box-shadow: 0 0 10px rgba(255, 94, 98, 0.7);
+    }
+
+    form button {
+      background: #ff5e62;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    form button:hover {
+      background: #ffb22f;
+      transform: translateY(-3px);
+    }
+
+    .success {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #ff5e62;
+      font-size: 1.2rem;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #fff;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: #00aced;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: #fff;
+    }
+
+    .social-icons a:hover {
+      color: #ff5e62;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      Ch<span style="color:#ff5e62;">Rohail</span>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+      <a href="Testimonials.html">Testimonials</a>
+      <a href="login-and-more.html" class="login-btn">Login and More</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="section">
+    <h2>Book an Appointment</h2>
+    <form id="bookingForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="time">Time:</label>
+      <input type="time" id="time" name="time" required>
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4"></textarea>
+
+      <button type="submit">Book Now</button>
+    </form>
+    <div id="confirmation" class="success hidden">✅ Appointment submitted successfully!</div>
+  </main>
+
+  <!-- Footer -->
+  <footer data-aos="fade-up" data-aos-delay="300">
+    <p>© 2024–2025 <a href="http://chrohail.com/" style="color: #00aced;">chrohail</a>. All Rights Reserved.</p>
+    <p><a href="mailto:rohailch2023@outlook.com" style="color: #fff; text-decoration: underline;">contact@chrohail.dev</a></p>
+    <div class="social-icons" style="margin-top: 10px;">
+      <a href="https://github.com/chrohail" target="_blank" title="GitHub">
+        <i class="fab fa-github fa-lg"></i>
+      </a>
+      <a href="https://linkedin.com/in/chrohail" target="_blank" title="LinkedIn">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </a>
+      <a href="https://twitter.com/chrohail" target="_blank" title="Twitter">
+        <i class="fab fa-twitter fa-lg"></i>
+      </a>
+      <a href="https://www.instagram.com/chrohail_804" target="_blank" title="Instagram">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzG1X1gmJCxexbkDLrhGJWBAugSbl3LleY6ioD7aVCu3JaJibVwZPezmPKoXUmQO75VWw/exec';
+    const form = document.getElementById('bookingForm');
+    const confirmation = document.getElementById('confirmation');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          confirmation.classList.remove('hidden');
+          form.reset();
+        })
+        .catch(error => alert('Error!', error.message));
+    });
+
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
