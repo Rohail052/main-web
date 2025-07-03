@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Tracker | ChRohail</title>
+
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    /* Reset & base */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 2rem 1rem 100px; /* bottom padding for footer */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+    }
+
+    /* Home button top-left */
+    #homeBtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.6em 1.2em;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      z-index: 9999;
+    }
+    #homeBtn:hover {
+      background: #0056b3;
+    }
+
+    /* Tracker box */
+    .tracker-box {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 4rem;
+    }
+
+    /* Inputs and button */
+    input,
+    button.track-btn {
+      padding: 10px;
+      margin-top: 1rem;
+      width: 80%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button.track-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button.track-btn:hover {
+      background: #0056b3;
+    }
+
+    /* Status text */
+    .status {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      min-height: 5em;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      margin-top: 1rem;
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .progress-bar div {
+      height: 100%;
+      background: #28a745;
+      width: 0;
+      transition: width 0.5s ease;
+    }
+
+    /* Toast notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: -400px;
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      max-width: 300px;
+      word-wrap: break-word;
+    }
+    .toast.success { background: #28a745; }
+    .toast.warning { background: #ffc107; color: #000; }
+    .toast.error { background: #dc3545; }
+    .toast.show {
+      right: 20px;
+      opacity: 1;
+    }
+
+    /* Footer styles */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #fff;
+      margin-top: auto;
+      width: 100%;
+    }
+    footer p {
+      margin: 6px 0;
+    }
+    footer a {
+      color: #00aced;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    footer .social-icons {
+      margin-top: 10px;
+    }
+    footer .social-icons a {
+      margin: 0 10px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    footer .social-icons a:hover {
+      opacity: 0.8;
+    }
+    footer .social-icons a[title="LinkedIn"] {
+      color: #0077b5;
+    }
+    footer .social-icons a[title="Twitter"] {
+      color: #1da1f2;
+    }
+    footer .social-icons a[title="Instagram"] {
+      color: #e1306c;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="homeBtn" onclick="location.href='index.html'" aria-label="Go to Home">
+    <i class="fas fa-home"></i> Home
+  </button>
+
+  <div class="tracker-box">
+    <h2>Track Your Order</h2>
+    <input type="text" id="orderInput" placeholder="Enter your Order Number" aria-label="Order Number" />
+    <button class="track-btn" onclick="trackOrder()">Track</button>
+
+    <div class="status" id="orderStatus" aria-live="polite"></div>
+    <div class="progress-bar" aria-hidden="true">
+      <div id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <footer data-aos="fade-up" data-aos-delay="300" style="text-align:center; padding: 20px; background: #111; color: #fff;">
+    <p>© 2024–2025 <a href="http://chrohail.com/" style="color: #00aced;">chrohail</a>. All Rights Reserved.</p>
+    <p><a href="mailto:rohailch2023@outlook.com" style="color: #fff; text-decoration: underline;">contact@chrohail.dev</a></p>
+    <div class="social-icons" style="margin-top: 10px;">
+      <a href="https://github.com/chrohail" target="_blank" title="GitHub" style="margin: 0 10px; color: #fff;">
+        <i class="fab fa-github fa-lg"></i>
+      </a>
+      <a href="https://linkedin.com/in/chrohail" target="_blank" title="LinkedIn" style="margin: 0 10px; color: #0077b5;">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </a>
+      <a href="https://twitter.com/chrohail" target="_blank" title="Twitter" style="margin: 0 10px; color: #1da1f2;">
+        <i class="fab fa-twitter fa-lg"></i>
+      </a>
+      <a href="https://www.instagram.com/chrohail_804" target="_blank" title="Instagram" style="margin: 0 10px; color: #e1306c;">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script>
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerText = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    async function trackOrder() {
+      const orderInput = document.getElementById('orderInput');
+      const orderId = orderInput.value.trim().toUpperCase();
+      const statusDiv = document.getElementById('orderStatus');
+      const progressFill = document.getElementById('progressBarFill');
+
+      statusDiv.innerHTML = '';
+      progressFill.style.width = '0%';
+
+      if (orderId === '') {
+        showToast('Please enter your order number.', 'warning');
+        return;
+      }
+
+      try {
+        const response = await fetch('orders.json');
+        const orders = await response.json();
+        const order = orders.find(o => o.orderId === orderId);
+
+        if (order) {
+          statusDiv.innerHTML = `
+            ✅ <strong>Order Found:</strong> ${order.title}<br>
+            🟢 <strong>Status:</strong> ${order.status}<br>
+            📅 <strong>Estimated Delivery:</strong> ${order.estimatedDelivery}
+          `;
+          progressFill.style.width = order.progress + '%';
+          showToast('Order found and loaded successfully!', 'success');
+        } else {
+          statusDiv.innerHTML = `
+            ❌ <strong>Wrong Order Number!</strong><br>
+            If you just placed your order, it may take a little time to appear in our system.
+          `;
+          showToast('Order not found. Please check again.', 'error');
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        statusDiv.innerHTML = '⚠️ Unable to load order data. Please try again later.';
+        showToast('Failed to load order data.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
