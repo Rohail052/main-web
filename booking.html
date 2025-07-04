@@ -6,68 +6,9 @@
   <title>Booking | Chrohail</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+      <link rel="stylesheet" href="style.css" />
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #111;
-      color: white;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: #000;
-      color: white;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #ff5e62;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background: #111;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        padding: 1rem;
-        border-radius: 8px;
-      }
-      nav.show {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
-    }
 
     .section {
       padding: 3rem 2rem;
@@ -202,7 +143,7 @@
   </header>
 
   <main class="section">
-    <h2>Schedule Meeting</h2>
+    <h2>Book an Appointment</h2>
     <form id="bookingForm">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required />
