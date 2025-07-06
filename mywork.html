@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CH Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+    }
+    .neon-text {
+      color: #00f7ff;
+      text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-black/40 glass px-6 py-4 flex justify-between items-center shadow-lg">
+    <h1 class="text-3xl font-bold neon-text">🌐CH Project </h1>
+    <ul class="flex gap-6 text-lg">
+      <li><a href="work.html" class="hover:text-cyan-300 transition">Dashboard</a></li>
+      <li><button id="logoutButton" class="bg-red-600 px-4 py-1 rounded hover:bg-red-700 transition">Logout</button></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto px-6 py-10">
+    <h2 class="text-4xl font-semibold neon-text mb-8 text-center">✨ Featured Projects</h2>
+
+    <!-- Search Bar -->
+    <div class="mb-10 max-w-md mx-auto text-center">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="🔍 Search projects..." 
+        class="w-full px-5 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      />
+    </div>
+
+    <!-- Project Cards -->
+    <div id="projectCardsContainer" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+      <!-- All 14 CH Projects -->
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🕌</div><h3 class="text-xl font-bold text-blue-300 mb-1">Mosque Website</h3><p class="text-gray-300">A modern Islamic center website with prayer times.</p><a href="https://chrohail.com/mosque" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🕌 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🏫</div><h3 class="text-xl font-bold text-blue-300 mb-1">School Website</h3><p class="text-gray-300">School platform for info, classes, and student portal.</p><a href="https://chrohail.com/school" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🏫 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🔤</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Translator</h3><p class="text-gray-300">Translate text between many languages.</p><a href="https://translator-ch.netlify.app/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🔤 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">☁️</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Weather App</h3><p class="text-gray-300">Check the current weather in your city.</p><a href="https://ch-weatherify.netlify.app/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">☁️ Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">📖</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Dictionary</h3><p class="text-gray-300">Look up definitions for any word instantly.</p><a href="https://chrohail.com/dictionary" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">📖 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🤖</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH AI Chatbot</h3><p class="text-gray-300">Smart assistant built with OpenAI or Dialogflow.</p><a href="https://chrohail.com/chatbot" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🤖 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">✅</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH To-Do List</h3><p class="text-gray-300">Organize your daily tasks with reminders.</p><a href="https://chrohail.com/todo" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">✅ Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">💱</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Currency Converter</h3><p class="text-gray-300">Convert money between currencies live.</p><a href="https://chrohail.com/currency" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">💱 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🔥</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Calorie Tracker</h3><p class="text-gray-300">Track meals and calories with ease.</p><a href="https://chrohail.com/calories" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🔥 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🎵</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Music Player</h3><p class="text-gray-300">Play and enjoy your favorite songs.</p><a href="https://music-ch.netlify.app/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🎵 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🚗</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Car Selling 1</h3><p class="text-gray-300">Car sales platform version 1 with listing pages.</p><a href="https://ch-cars.netlify.app/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🚗 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🚙</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Car Selling 2</h3><p class="text-gray-300">Updated version of the CH car platform with new UI.</p><a href="rohail2008.github.io/Ch-cars/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🚙 Visit</a></div>
+
+      <div class="glass p-6 rounded-xl shadow-md"><div class="mb-4 text-4xl">🧼</div><h3 class="text-xl font-bold text-blue-300 mb-1">CH Auto Detailing</h3><p class="text-gray-300">A sleek website for car washing and detailing services.</p><a href="https://ch-detailing.netlify.app/" target="_blank" class="inline-block mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded">🧼 Visit</a></div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="glass p-4 text-center text-sm text-gray-400 mt-auto">
+    <p>&copy; 2025 ch-rohail Admin Dashboard. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Logout
+    document.getElementById('logoutButton').onclick = () => {
+      sessionStorage.clear();
+      window.location.href = 'admin.html';
+    };
+
+    // Session Check
+    const MAX_SESSION_DURATION = 30 * 60 * 1000;
+    const loginTime = sessionStorage.getItem('loginTime');
+    if (!sessionStorage.getItem('loggedIn') || !loginTime || (Date.now() - loginTime) > MAX_SESSION_DURATION) {
+      sessionStorage.clear();
+      window.location.href = 'admin.html';
+    }
+
+    // Search Filter
+    const searchInput = document.getElementById('searchInput');
+    const cardsContainer = document.getElementById('projectCardsContainer');
+    searchInput.addEventListener('input', () => {
+      const keyword = searchInput.value.toLowerCase();
+      const cards = cardsContainer.querySelectorAll('.glass');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(keyword) ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
