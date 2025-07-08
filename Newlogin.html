@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login / Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2a3d66);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: bold;
+    }
+    .tab.active {
+      border-color: #00f7ff;
+      color: #00f7ff;
+    }
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    form.active {
+      display: flex;
+    }
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    button {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .google-btn {
+      background: #fff;
+      color: #000;
+    }
+    .link-btn {
+      background: none;
+      color: #00f7ff;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+    }
+    #spinnerOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #00f7ff;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="spinnerOverlay"><div class="spinner"></div></div>
+
+<div class="container">
+  <div class="tabs">
+    <div class="tab active" id="loginTab">Login</div>
+    <div class="tab" id="signupTab">Signup</div>
+    <div class="tab" id="magicTab">Magic Link</div>
+  </div>
+
+  <form id="loginForm" class="active">
+    <input type="email" id="loginEmail" placeholder="Email" required />
+    <input type="password" id="loginPassword" placeholder="Password" required />
+    <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+    <button type="submit">Login</button>
+    <button type="button" class="link-btn" id="resetPassword">Forgot Password?</button>
+    <button type="button" class="google-btn" id="googleLogin">Login with Google</button>
+  </form>
+
+  <form id="signupForm">
+    <input type="email" id="signupEmail" placeholder="Email" required />
+    <input type="password" id="signupPassword" placeholder="Password" required />
+    <button type="submit">Signup</button>
+    <button type="button" class="google-btn" id="googleSignup">Signup with Google</button>
+  </form>
+
+  <form id="magicForm">
+    <input type="email" id="magicEmail" placeholder="Email" required />
+    <button type="submit">Send Magic Link</button>
+  </form>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="auth.js"></script>
+
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  const forms = [loginForm, signupForm, magicForm];
+  tabs.forEach((tab, i) => {
+    tab.onclick = () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      forms.forEach(f => f.classList.remove("active"));
+      tab.classList.add("active");
+      forms[i].classList.add("active");
+    };
+  });
+</script>
+
+</body>
+</html>
