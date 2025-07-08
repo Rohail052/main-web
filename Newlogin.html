@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Signup</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2a3d66);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .container {
+      position: relative;
+      max-width: 420px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .home-link {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #00f7ff;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+    .tab.active {
+      color: #00f7ff;
+      border-color: #00f7ff;
+    }
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    form.active { display: flex; }
+
+    .input-group {
+      position: relative;
+    }
+    input {
+      padding: 12px 40px 12px 12px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    input::placeholder {
+      color: #ccc;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1rem;
+      color: #00f7ff;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #00f7ff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #01d2dd;
+    }
+    .google-btn {
+      background: #fff;
+      color: #333;
+    }
+    .link-btn {
+      background: none;
+      border: none;
+      text-decoration: underline;
+      color: #00f7ff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      align-self: flex-start;
+    }
+    .message {
+      font-size: 0.9rem;
+      text-align: center;
+      min-height: 20px;
+    }
+    #spinnerOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 6px solid #00f7ff;
+      border-top: 6px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="spinnerOverlay"><div class="spinner"></div></div>
+
+<div class="container">
+  <div class="tabs">
+    <div class="tab active" id="loginTab">Login</div>
+    <div class="tab" id="signupTab">Signup</div>
+    <div class="tab" id="magicTab">Magic Link</div>
+  </div>
+
+  <form id="loginForm" class="active">
+    <input type="email" id="loginEmail" placeholder="Email" required />
+    <div class="input-group">
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <span class="toggle-password" data-target="loginPassword">&#128065;</span>
+    </div>
+    <div class="remember-me">
+      <input type="checkbox" id="rememberMe" />
+      <label for="rememberMe">Remember Me</label>
+    </div>
+    <button type="submit">Login</button>
+    <button type="button" class="link-btn" id="resetPassword">Forgot Password?</button>
+    <button type="button" class="google-btn" id="googleLogin">Continue with Google</button>
+    <div class="message" id="loginMessage"></div>
+  </form>
+
+  <form id="signupForm">
+    <input type="email" id="signupEmail" placeholder="Email" required />
+    <div class="input-group">
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <span class="toggle-password" data-target="signupPassword">&#128065;</span>
+    </div>
+    <button type="submit">Signup</button>
+    <button type="button" class="google-btn" id="googleSignup">Continue with Google</button>
+    <div class="message" id="signupMessage"></div>
+  </form>
+
+  <form id="magicForm">
+    <input type="email" id="magicEmail" placeholder="Email" required />
+    <button type="submit">Send Magic Link</button>
+    <div class="message" id="magicMessage"></div>
+  </form>
+</div>
+      <a class="home-link" href="index.html">🏠 Home</a>
+
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
