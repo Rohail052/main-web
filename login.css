@@ -1,0 +1,311 @@
+:root {
+    --primary-color: #6a00ff; /* A vibrant purple */
+    --secondary-color: #00bcd4; /* A bright teal */
+    --accent-color: #ff5722; /* An orange accent */
+    --text-color: #333;
+    --light-text-color: #f0f0f0;
+    --background-light: #f8f8f8;
+    --card-background: #ffffff;
+    --border-color: #e0e0e0;
+    --error-color: #e74c3c;
+    --success-color: #27ae60;
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow: hidden; /* Prevent scroll issues with background gradient */
+}
+
+.container {
+    background: var(--card-background);
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* For inner elements like toggle buttons */
+    border: 1px solid var(--border-color);
+}
+
+.form-card {
+    position: relative;
+}
+
+.toggle-buttons {
+    display: flex;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--background-light);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.toggle-buttons button {
+    flex: 1;
+    padding: 15px 0;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.toggle-buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toggle-buttons button.active {
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    box-shadow: var(--shadow-light);
+}
+
+.auth-form {
+    display: none; /* Hidden by default, JavaScript will manage visibility */
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+h2 {
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 0, 255, 0.1);
+}
+
+.auth-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: var(--light-text-color);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+    outline: none;
+}
+
+.auth-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    opacity: 0.95;
+}
+
+.auth-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-light);
+}
+
+.forgot-password-link {
+    display: block;
+    margin-top: 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9em;
+    margin-top: 15px;
+    font-weight: 500;
+    min-height: 20px; /* Reserve space to prevent layout shifts */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+}
+
+.success-message {
+    color: var(--success-color);
+    font-size: 0.9em;
+    margin-top: 15px;
+    font-weight: 500;
+    min-height: 20px; /* Reserve space */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.success-message.show {
+    opacity: 1;
+}
+
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Allows clicks through when hidden */
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 0.95em;
+}
+
+.modal .input-group {
+    margin-bottom: 15px;
+}
+
+.modal .auth-button {
+    margin-top: 20px;
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        margin: 20px;
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    .auth-button {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    .toggle-buttons button {
+        font-size: 1em;
+        padding: 12px 0;
+    }
+}
