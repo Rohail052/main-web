@@ -24,36 +24,17 @@ const learningContentDiv = document.getElementById('learningContent'); // Get th
 // --- HARDCODED LEARNING RESOURCES ---
 const learningResources = [
     {
-        title: "Introduction to Our Service (PDF)",
+        title: "Html and Css  (PDF)",
         type: "pdf",
-        url: "https://www.africau.edu/images/default/sample.pdf", // REPLACE with your PDF URL
+        url: "html-css.pdf", // PDF URL
         description: "A comprehensive guide to get you started."
     },
     {
-        title: "Company Logo (Image)",
-        type: "image",
-        url: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", // REPLACE with your Image URL
-        description: "Our official brand logo."
-    },
-    {
-        title: "Product Demo (Video - YouTube Embed)",
-        type: "video",
-        url: "https://www.youtube.com/embed/YOUR\_YOUTUBE\_VIDEO\_ID", // REPLACE with your YouTube Embed URL (e.g., from YouTube's "Share" -> "Embed" option)
-        description: "Watch a quick demonstration of our product."
-    },
-    {
-        title: "Visit Our Blog",
-        type: "link",
-        url: "https://www.example.com/blog", // REPLACE with your blog or external link
-        description: "Stay updated with our latest news."
-    },
-    {
-        title: "Advanced Features Guide (PDF)",
+        title: "Javascript (PDF)",
         type: "pdf",
-        url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", // Another example PDF URL
+        url: "js.pdf", // Another example PDF URL
         description: "Dive deeper into advanced functionalities."
     }
-    // Add more resources here as needed
 ];
 // -------------------------------------
 
