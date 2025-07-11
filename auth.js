@@ -252,7 +252,7 @@ sendResetLinkBtn.addEventListener('click', async () => {
     try {
         // Attempt to send a password reset email using Firebase Auth
         await auth.sendPasswordResetEmail(email);
-        displayMessage(resetSuccessMsg, 'Password reset link sent to your email! Please check your inbox.', false);
+        displayMessage(resetSuccessMsg, 'Password reset link sent to your email! Please check your inbox ,spam or junk folder .', false);
         resetEmailInput.value = ''; // Clear email input field
 
         // Close the modal after a short delay to allow the user to read the success message
