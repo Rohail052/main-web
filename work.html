@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* General */
+    body {
+      font-family: 'Poppins', sans-serif;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    body.dark {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    /* Loading progress bar */
+    #loadingProgressBar {
+      position: fixed;
+      top: 0; left: 0; height: 3px;
+      background: #00c3ff;
+      width: 0;
+      transition: width 0.3s ease;
+      z-index: 9999;
+    }
+
+    /* Skeleton loader */
+    .skeleton {
+      background: linear-gradient(90deg, #ddd, #eee, #ddd);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite linear;
+      border-radius: 0.5rem;
+      height: 100px;
+      margin-bottom: 1rem;
+    }
+    @keyframes skeleton-loading {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* Project card flip */
+    .project-card {
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+      height: 160px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      transform-style: preserve-3d;
+      border-radius: 0.75rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      background: #1f2937;
+    }
+    body.dark .card-inner {
+      background: #222;
+      box-shadow: 0 8px 24px rgba(0, 195, 255, 0.4);
+    }
+    .project-card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      color: #e0e7ff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .card-back {
+      background: #0f172a;
+      transform: rotateY(180deg);
+      color: #a5b4fc;
+    }
+    body.dark .card-back {
+      background: #111827;
+    }
+
+    /* Stats with count-up */
+    .stat-value {
+      font-weight: 700;
+      font-size: 2rem;
+      transition: color 0.3s ease;
+    }
+
+    /* Toast notifications */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00c3ff;
+      color: #121212;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 195, 255, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(30px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1100;
+      max-width: 300px;
+    }
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Shake animation for invalid form */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake {
+      animation: shake 0.4s;
+    }
+
+    /* Dark/Light mode toggle button */
+    #themeToggle {
+      cursor: pointer;
+      background: transparent;
+      border: 2px solid #00c3ff;
+      color: #00c3ff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    #themeToggle:hover {
+      background: #00c3ff;
+      color: #121212;
+    }
+
+    /* Swipe gesture hint (mobile) */
+    .swipe-hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.3rem;
+      user-select: none;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col transition-colors duration-500">
+
+  <!-- Loading Progress Bar -->
+  <div id="loadingProgressBar"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="bg-gray-800 px-6 py-3 flex justify-between items-center shadow-md">
+    <h1 class="text-2xl font-bold text-blue-400">Dashboard</h1>
+    <div class="flex items-center gap-4">
+      <button id="themeToggle" aria-label="Toggle Dark/Light Theme">Light Mode</button>
+      <ul class="flex space-x-4">
+        <li><a href="mywork.html" class="text-gray-300 hover:text-white">My Work</a></li>
+        <li><button id="logoutButton" class="bg-red-600 px-3 py-1 rounded hover:bg-red-700 text-white">Logout</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto p-6">
+
+    <!-- Welcome and Session Timer -->
+    <section class="mb-4 flex justify-between items-center flex-wrap gap-4">
+      <h2 class="text-2xl font-semibold text-blue-300">Welcome, <span id="userRole">User</span>!</h2>
+      <span id="sessionTimer" class="text-sm text-gray-300"></span>
+    </section>
+
+    <!-- Notifications -->
+    <section id="notifications" class="text-sm text-yellow-400 mb-4 min-h-[1.5rem]"></section>
+
+    <!-- Filters -->
+    <section class="mb-6 flex gap-4 flex-wrap items-center">
+      <label for="filterStatus" class="font-semibold">Filter by Status:</label>
+      <select id="filterStatus" class="bg-gray-700 text-gray-200 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <option value="all">All</option>
+        <option value="to do">To Do</option>
+        <option value="in progress">In Progress</option>
+        <option value="completed">Completed</option>
+        <option value="on hold">On Hold</option>
+      </select>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="statsSection" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="p-4 bg-gray-800 rounded shadow text-center">
+        <p>Total</p>
+        <h3 id="statTotal" class="stat-value text-blue-400">0</h3>
+        <div class="h-2 bg-blue-700 rounded overflow-hidden mt-2"><div id="progressTotal" class="h-full bg-blue-400 w-0 transition-all"></div></div>
+      </div>
+      <div class="p-4 bg-gray-800 rounded shadow text-center">
+        <p>Completed</p>
+        <h3 id="statCompleted" class="stat-value text-green-400">0</h3>
+        <div class="h-2 bg-green-700 rounded overflow-hidden mt-2"><div id="progressCompleted" class="h-full bg-green-400 w-0 transition-all"></div></div>
+      </div>
+      <div class="p-4 bg-gray-800 rounded shadow text-center">
+        <p>In Progress</p>
+        <h3 id="statInProgress" class="stat-value text-yellow-300">0</h3>
+        <div class="h-2 bg-yellow-600 rounded overflow-hidden mt-2"><div id="progressInProgress" class="h-full bg-yellow-400 w-0 transition-all"></div></div>
+      </div>
+      <div class="p-4 bg-gray-800 rounded shadow text-center">
+        <p>To Do</p>
+        <h3 id="statToDo" class="stat-value text-gray-300">0</h3>
+        <div class="h-2 bg-gray-700 rounded overflow-hidden mt-2"><div id="progressToDo" class="h-full bg-gray-400 w-0 transition-all"></div></div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="myProjectsSection" class="bg-gray-800 p-6 rounded-xl shadow-lg border border-indigo-500/50">
+      <h2 class="text-2xl font-semibold mb-4 text-indigo-300">All Projects</h2>
+      <div id="projectsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Skeletons loading placeholders (default) -->
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+      </div>
+      <p id="noProjectsMessage" class="text-gray-400 col-span-full mt-4 hidden">No projects found.</p>
+      <p class="swipe-hint">Swipe left/right on cards (mobile) for quick actions</p>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm">
+    <a href="add-project.html" id="addProjectBtn" class="mt-4 inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Add Project</a>
+    <p class="mt-2">&copy; 2025 ch-rohail Admin Dashboard. All rights reserved.</p>
+  </footer>
+
+  <script src="work.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Tracker | ChRohail</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 2rem 1rem 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #homeBtn {
+      position: fixed; top: 20px; left: 20px;
+      background: #007bff; color: white; border: none;
+      padding: 0.6em 1.2em; border-radius: 6px;
+      font-size: 1rem; cursor: pointer; z-index: 99;
+    }
+    #homeBtn:hover { background: #0056b3; }
+
+    .tracker-box {
+      max-width: 500px; width: 100%;
+      background: white; border-radius: 10px;
+      padding: 2rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 4rem;
+    }
+
+    input, button.track-btn {
+      padding: 10px; margin-top: 1rem; width: 80%;
+      border-radius: 6px; font-size: 1rem;
+      border: 1px solid #ccc;
+    }
+
+    button.track-btn {
+      background: #007bff; color: white;
+      border: none; cursor: pointer;
+    }
+    button.track-btn:hover { background: #0056b3; }
+
+    .pulsing {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,123,255,0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,123,255,0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,123,255,0); }
+    }
+
+    .status { margin-top: 1.5rem; font-size: 1.1rem; min-height: 6em; }
+
+    .progress-bar {
+      margin-top: 1rem; height: 20px; width: 80%;
+      background: #eee; border-radius: 10px; overflow: hidden;
+    }
+
+    .progress-bar div {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, red, orange, green);
+      transition: width 0.6s ease-in-out;
+    }
+
+    #loadingSpinner {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .toast {
+      position: fixed; top: 20px; right: -400px;
+      background: #333; color: white;
+      padding: 12px 20px; border-radius: 8px;
+      font-size: 0.95rem; z-index: 9999; opacity: 0;
+      transition: all 0.4s ease;
+    }
+    .toast.success { background: #28a745; }
+    .toast.warning { background: #ffc107; color: #000; }
+    .toast.error { background: #dc3545; }
+    .toast.show { right: 20px; opacity: 1; }
+
+    .typing {
+      display: inline-block;
+      border-right: 2px solid;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 2s steps(20), blink 0.5s step-end infinite alternate;
+      max-width: 100%;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    .skeleton {
+      width: 80%;
+      height: 100px;
+      margin: 1rem auto 0;
+      background: linear-gradient(100deg, #eee 30%, #ddd 50%, #eee 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 10px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    footer {
+      text-align: center; padding: 20px;
+      background: #111; color: #fff;
+      margin-top: auto; width: 100%;
+    }
+    footer a { color: #00aced; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <button id="homeBtn" onclick="location.href='index.html'"><i class="fas fa-home"></i> Home</button>
+
+  <div class="tracker-box">
+    <h2>Check project progress</h2>
+    <input type="text" id="orderInput" placeholder="Enter your Order Number" />
+    <button id="trackBtn" class="track-btn">Track</button>
+    <div id="loadingSpinner" class="spinner">⏳</div>
+    <div id="skeletonLoader" class="skeleton" style="display: none;"></div>
+    <div id="orderStatus" class="status"></div>
+    <div class="progress-bar"><div id="progressBarFill"></div></div>
+  </div>
+
+  <footer>
+    <p>© 2024–2025 <a href="http://chrohail.com/">chrohail</a>. All Rights Reserved.</p>
+    <p><a href="mailto:rohailch2023@outlook.com">contact@chrohail.dev</a></p>
+  </footer>
+
+  <script src="order-tracker.js"></script>
+</body>
+</html>
