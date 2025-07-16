@@ -256,27 +256,80 @@
                 <tbody>
                     <tr>
                         <td>Logged in</td>
-                        <td id="loginTime">Pending...</td>
+                        <td id="loginTime">Pending...                          </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>   
 
-    <script src="dashboard.js"></script>
+      <!-- Chat Launcher -->
+<button id="chat-launcher" aria-label="Open Chat Assistant">
+  💬 We're here to help!
+</button>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6872fa1c7f202b19181e9c17/1j00i206i';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+<!-- Chat Widget -->
+<div id="chat-widget" role="dialog" aria-label="Chrohail Chat">
+  <div id="chat-header">
+    🤖 Chrohail Assistant
+    <span id="close-chat" role="button">×</span>
+  </div>
+
+  <div id="chat-content">
+    <button class="chat-btn" onclick="askAI('i have a question')">I have a question</button>
+    <button class="chat-btn" onclick="askAI('help with login')">Help with login/signup</button>
+    <button class="chat-btn" onclick="askAI('file issue')">File help</button>
+    <button class="chat-btn" onclick="askAI('talk to an agent')">Talk to an agent</button>
+  </div>
+
+  <div id="chat-response">💡 I'm ready to assist you!</div>
+
+  <div id="chat-input-area">
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="Type your message..."
+      onkeypress="handleKey(event)"
+      autocomplete="off"
+    />
+  </div>
+
+  <div id="chat-iframe-container">
+    <iframe
+      id="chat-iframe"
+      title="Live Agent Chat"
+      src=""
+      allow="microphone; autoplay"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+  </div>
+
+  <div id="chat-footer">© 2025 Chrohail AI Assistant. All rights reserved.</div>
+</div>
+
+
+
+    <footer data-aos="fade-up" data-aos-delay="200" style="text-align:center; padding: 20px; background: #111; color: #fff;">
+  <p>© 2024–2025 <a href="http://chrohail.com/" style="color: #00aced;">chrohail</a>. All Rights Reserved.</p>
+  <p><a href="mailto:rohailch2023@outlook.com" style="color: #fff; text-decoration: underline;">contact@chrohail.dev</a></p>
+  
+  <div class="social-icons" style="margin-top: 10px;">
+    <a href="https://github.com/chrohail" target="_blank" title="GitHub" style="margin: 0 10px; color: #fff;">
+      <i class="fab fa-github fa-lg"></i>
+    </a>
+    <a href="https://linkedin.com/in/chrohail" target="_blank" title="LinkedIn" style="margin: 0 10px; color: #0077b5;">
+      <i class="fab fa-linkedin fa-lg"></i>
+    </a>
+    <a href="https://twitter.com/chrohail" target="_blank" title="Twitter" style="margin: 0 10px; color: #1da1f2;">
+      <i class="fab fa-twitter fa-lg"></i>
+    </a>
+    <a href="https://www.instagram.com/chrohail_804" target="_blank" title="Instagram" style="margin: 0 10px; color: #e1306c;">
+      <i class="fab fa-instagram fa-lg"></i>
+    </a>
+  </div>
+</footer>
+<script src="dashboard.js"></script>
+<link rel="stylesheet" href="chat.css"/>
+  <script src="chat.js"></script>
 </body>
 </html>
