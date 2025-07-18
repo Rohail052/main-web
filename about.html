@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1e1e1e);
+      color: #ffffff;
+      line-height: 1.6;
+    }
+         /* Modal Popup Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #ff0000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .logo span {
+      color: #1ed760;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #1ed760;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #1ed760;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      background: linear-gradient(160deg, #0e0e0e, #1a1a1a);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #1ed760;
+      text-shadow: 0 0 15px rgba(30, 215, 96, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 2rem;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+    }
+
+    .image-container {
+      flex: 1 1 300px;
+      max-width: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(30, 215, 96, 0.2);
+    }
+
+    .text-container {
+      flex: 2 1 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .info-box, .interests-box, .career-box {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(30, 215, 96, 0.1);
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .info-box h2, .interests-box h2, .career-box h2 {
+      color: #1ed760;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-box ul, .interests-box ul, .career-box ul {
+      list-style: none;
+      color: #ccc;
+    }
+
+    .info-box li, .interests-box li, .career-box li {
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
+    }
+
+    .info-box a {
+      color: #1ed760;
+      text-decoration: none;
+    }
+
+    .info-box a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #1e1e1e;
+      margin-top: 4rem;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #1ed760;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .about-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+      }
+
+      .text-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .info-box, .interests-box, .career-box {
+        width: 100%;
+        padding: 1.5rem;
+        font-size: 1rem;
+      }
+
+      .info-box ul, .interests-box ul, .career-box ul {
+        margin-top: 1rem;
+      }
+
+      nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.85);
+        position: absolute;
+        right: 0;
+        top: 70px;
+        width: 200px;
+      }
+
+      nav a {
+        margin: 1rem;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+
+        /* Modal overlay */
+  #offerModal {
+    display: none; /* hidden by default */
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Modal content box */
+  #offerModal .modal-content {
+    background: linear-gradient(135deg, #1ed760, #128c4a);
+    color: white;
+    border-radius: 12px;
+    max-width: 480px;
+    margin: 8% auto;
+    padding: 2.5rem 2rem;
+    position: relative;
+    box-shadow: 0 8px 30px rgba(18,140,74,0.7);
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+  }
+
+  /* Close button */
+  #offerModal .close-btn {
+    position: absolute;
+    top: 12px; right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  #offerModal .close-btn:hover {
+    color: #ff4c4c;
+  }
+
+  /* Offer text */
+  #offerModal h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  #offerModal .discount {
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 1rem 0;
+    text-shadow: 0 0 15px #1ed760;
+  }
+
+  #offerModal .dates {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  #offerModal p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin-bottom: 1.8rem;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+
+  #offerModal a.btn-contact {
+    background-color: #fff;
+    color: #1ed760;
+    font-weight: 700;
+    padding: 0.75rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(30,215,96,0.6);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+  }
+  #offerModal a.btn-contact:hover {
+    background-color: #1ed760;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(30,215,96,0.8);
+  }
+
+  @media (max-width: 480px) {
+    #offerModal h2 {
+      font-size: 2.2rem;
+    }
+    #offerModal .discount {
+      font-size: 3rem;
+    }
+    #offerModal p {
+      font-size: 1rem;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">CH<span>Rohail</span></div>
+    <nav id="nav">
+        <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
+   <a href="Testimonials.html">Testimonials</a>     
+        <a href="login and More.html" class="login-btn">Login and More</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <section class="hero">
+    <h1>About Me</h1>
+    <p>Started unintentionally with <strong>SuperSimple.dev</strong>. Now building beautiful, responsive websites — intentionally.</p>
+  </section>
+
+  <section class="about-section">
+    <div class="image-container">
+      <img src="about me1 .jpeg" alt="My Profile Photo">
+    </div>
+    <div class="text-container">
+      <div class="info-box">
+        <h2>Personal Information</h2>
+        <ul>
+          <li><strong>Age:</strong> </li>
+          <li><strong>Phone:</strong> +1 123-456-9999</li>
+          <li><strong>City:</strong> Highpoint, NC</li>
+          <li><strong>Email:</strong> <a href="mailto:rohailch2023@outlook.com">rohailch2023@outlook.com</a></li>
+        </ul>
+      </div>
+
+      <div class="interests-box">
+        <h2>My Interests</h2>
+        <ul>
+          <li>Software Development</li>
+          <li>Computer Vision</li>
+          <li>Software Engineering</li>
+          <li>Visualization</li>
+        </ul>
+      </div>
+
+      <div class="career-box">
+        <h2>Career Goal & Personal Interests</h2>
+        <ul>
+          <li><strong>Career Goal:</strong> My goal is to become a software engineer.</li>
+          <li><strong>Interests:</strong> I enjoy playing cricket, and I love reading and writing <strong>Urdu poetry</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- Modal for Shapo Review -->
+  
+<!-- Add this in your <head> if not already present -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+
+    
+<!-- Updated Footer -->
+<footer data-aos="fade-up" data-aos-delay="200" style="text-align:center; padding: 20px; background: #111; color: #fff;">
+  <p>© 2024–2025 <a href="http://chrohail.com/" style="color: #00aced;">chrohail</a>. All Rights Reserved.</p>
+  <p><a href="mailto:rohailch2023@outlook.com" style="color: #fff; text-decoration: underline;">contact@chrohail.dev</a></p>
+  
+  <div class="social-icons" style="margin-top: 10px;">
+    <a href="https://github.com/chrohail" target="_blank" title="GitHub" style="margin: 0 10px; color: #fff;">
+      <i class="fab fa-github fa-lg"></i>
+    </a>
+    <a href="https://linkedin.com/in/chrohail" target="_blank" title="LinkedIn" style="margin: 0 10px; color: #0077b5;">
+      <i class="fab fa-linkedin fa-lg"></i>
+    </a>
+    <a href="https://twitter.com/chrohail" target="_blank" title="Twitter" style="margin: 0 10px; color: #1da1f2;">
+      <i class="fab fa-twitter fa-lg"></i>
+    </a>
+    <a href="https://www.instagram.com/chrohail_804" target="_blank" title="Instagram" style="margin: 0 10px; color: #e1306c;">
+      <i class="fab fa-instagram fa-lg"></i>
+    </a>
+  </div>
+</footer>
+
+    <!-- Chat Launcher -->
+<button id="chat-launcher" title="Open/Close Chat">💬</button>
+
+<div id="chat-widget" role="region" aria-label="Chat assistant widget">
+  <div id="chat-header">
+    Chrohail AI Assistant
+    <button id="close-chat" aria-label="Close Chat">&times;</button>
+  </div>
+
+  <div id="chat-response" aria-live="polite" aria-atomic="true">💡 I'm ready to assist you!</div>
+
+  <div id="chat-content">
+    <div data-key="i have a question">I have a question</div>
+    <div data-key="help with login">Help with login/signup</div>
+    <div data-key="talk to an agent">Talk to an agent</div>
+  </div>
+
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Type your message and press Enter..." autocomplete="off" />
+  </div>
+
+  <div id="chat-iframe-container">
+    <iframe id="chat-iframe" src="" allow="microphone; camera"></iframe>
+  </div>
+
+  <button id="end-chat">🗑 End Chat & Clear</button>
+</div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('show');
+    }
+      
+        (function() {
+    const modal = document.getElementById('offerModal');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    // Show the modal after 3 seconds
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        modal.style.display = 'block';
+        // Optional: prevent body scroll while modal is open
+        document.body.style.overflow = 'hidden';
+      }, 3000);
+    });
+
+    // Close function
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = ''; // restore scroll
+    }
+
+    // Close on click X
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on pressing Enter or Space when focused on closeBtn (keyboard accessibility)
+    closeBtn.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+
+    // Optional: Close if user clicks outside modal content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  })();
+</script>
+  <link rel="stylesheet" href="chat.css"/>
+  <script src="chat.js"></script>
+</body>
+</html>
